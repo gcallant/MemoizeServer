@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/.env" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/.idea/.gitignore" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Events/LoginAuthorized.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/UserController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Listeners/SendLoginAuthorization.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/helpers.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/composer.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/key.pub" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/app.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/BirdboardForm.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Dropdown.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/LoginModal.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/NewProjectModal.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/ThemeSwitcher.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/new.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/sass/app.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/sass/components/button.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/sass/components/card.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/sass/components/dropdown.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/sass/components/footer.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/sass/components/login.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/sass/themes/dark.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/sass/themes/light.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/auth/login.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/email/verify.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/errors.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/includes/error.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/includes/footer.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/includes/head.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/includes/header.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/routes/api.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/routes/web.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tailwind.config.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webpack.mix.js" charset="UTF-8" />
+    <file url="PROJECT" charset="windows-1252" />
+  </component>
+</project>
