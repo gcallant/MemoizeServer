@@ -7,10 +7,14 @@
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/UserController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Listeners/SendLoginAuthorization.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/User.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/helpers.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/composer.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config/auth.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/key.pub" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/public/.well-known/apple-app-site-association" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/app.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/BirdboardForm.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Dropdown.vue" charset="UTF-8" />

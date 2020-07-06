@@ -1,0 +1,21 @@
+{
+    "activitycontinuation": {
+        "apps": [
+            "N3XUA4BNHL.com.grantcallant.Memoize"
+        ]
+    },
+    "webcredentials": {
+        "apps": [
+            "N3XUA4BNHL.com.grantcallant.Memoize"
+        ]
+    },
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "N3XUA4BNHL.com.grantcallant.Memoize",
+                "paths": [ "*", "/" ]
+            }
+        ]
+    }
+}

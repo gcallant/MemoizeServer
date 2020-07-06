@@ -50,13 +50,16 @@ class LoginController extends Controller
     public function show()
     {
         $session_id = "empty";
+
         return View('auth.login', compact('session_id'));
     }
 
     public function startLogin()
     {
+        //Check if mobile device -> Redirect back to app to continue login ...
         $this->generateSession();
         $session_id = $this->session_id;
+
         return View('auth.login', compact('session_id'));
     }
 
@@ -71,7 +74,12 @@ class LoginController extends Controller
         $signature = $request->input('signature');
         $payload = $request->input('payload');
 
-        $this->verifyPayloadData($payload);
+        if($this->verifyPayloadData($payload))
+        {
+            return $this->authorizeLogin($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
     }
 
     private function verifyPayloadData($payload)
@@ -116,7 +124,8 @@ class LoginController extends Controller
         [$hashKey] = explode('.', $sentHash);
         $storedHash = cache()->get($hashKey . '_login_hash');
 
-        if (!Hash::check($sentHash, $storedHash)) {
+        if(!Hash::check($sentHash, $storedHash))
+        {
             abort(422);
         }
 
@@ -128,8 +137,8 @@ class LoginController extends Controller
     public function authorizeLogin(Request $request)
     {
         $request->validate([
-            'hash' => 'required|string',
-            'password' => 'required|string',
+            'hash'            => 'required|string',
+            'password'        => 'required|string',
             $this->username() => 'required|string',
         ]);
 
@@ -137,7 +146,8 @@ class LoginController extends Controller
         [$hashKey] = explode('.', $sentHash);
         $storedHash = cache()->get($hashKey . '_login_hash');
 
-        if (!Hash::check($sentHash, $storedHash) || !$this->attemptLogin($request)) {
+        if(!Hash::check($sentHash, $storedHash) || !$this->attemptLogin($request))
+        {
             abort(422);
         }
 
@@ -148,12 +158,15 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        if ($this->hasTooManyLoginAttempts($request)) {
+        if($this->hasTooManyLoginAttempts($request))
+        {
             $this->fireLockoutEvent($request);
+
             return $this->sendLockoutResponse($request);
         }
 
-        if ($this->guard()->validate($this->credentials($request))) {
+        if($this->guard()->validate($this->credentials($request)))
+        {
             $username = $request->get($this->username());
             $hashKey = sha1($username . '_' . Str::random(32));
             $unhashedLoginHash = $hashKey . '.' . Str::random(32);
