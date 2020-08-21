@@ -18,7 +18,9 @@
             @endif
 
             {{--            <button formaction="startLogin" class="createAccount">Login</button>--}}
-            <button formaction="startLogin()" class="button" >Login</button>
+{{--            <button formaction="startLogin" class="button" >Login</button>--}}
+
+            <a href="startLogin" class="button">Login</a>
             <div id="hostkey" style="width: 100%; visibility: visible">
                 <div class="qrcode">
 

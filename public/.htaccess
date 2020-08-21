@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    #Prevent redirection for json file
+    RewriteCond %\{REQUEST_URI} !^/(.well-known/)?apple-app-site-association$
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

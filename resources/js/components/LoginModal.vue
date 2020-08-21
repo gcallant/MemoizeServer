@@ -9,7 +9,7 @@
 <script>
     import QRCode from 'qrcode';
 
-    QRCode.g
+    QRCode.toCanvas()
     import BirdboardForm from "./BirdboardForm";
     export default {
         name: "LoginModal",

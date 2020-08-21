@@ -13,8 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-route::get('/startLogin', 'LoginController@startLogin');
+Route::get('/', function(){
+    return view('welcome');
+});
+
+Route::get('register/verify/{confirmation_code}', [
+    'as' => 'confirmation_path',
+    'uses' => 'Auth\RegisterController@confirm'
+]);
+
+Route::get('/startLogin', 'Auth\LoginController@startLogin');

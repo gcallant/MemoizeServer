@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/user', 'UserController@store')->middleware();
-Route::post('/login', 'Auth\LoginController@login')->middleware();
+Route::post('/user', 'UserController@store')->middleware('client:create-users');
+Route::post('/login', 'Auth\LoginController@login');

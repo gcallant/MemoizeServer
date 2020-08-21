@@ -7,11 +7,15 @@ use App\Events\LoginAuthorized;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Carbon\Carbon;
+use Clef\BadSignatureError;
+use Clef\Clef;
+use Clef\VerificationError;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
 class LoginController extends Controller
 {
     /*
@@ -60,24 +64,60 @@ class LoginController extends Controller
         $this->generateSession();
         $session_id = $this->session_id;
 
-        return View('auth.login', compact('session_id'));
+        return View('welcome', compact('session_id'));
     }
 
     public function login(Request $request)
     {
-        $user = User::find($request->input('user_id'));
-        if($user == null)
+        $payload_bundle = Clef::decode_payload($request["payload"]);
+        try
+        {
+            $signed_payload = json_decode($payload_bundle["payload_json"], true, 512, JSON_THROW_ON_ERROR);
+        }
+        catch(\JsonException $e)
+        {
+            return response()->json($e->getMessage(), 401);
+        }
+
+        $user = User::find($signed_payload["clef_id"]);
+
+        if($user === null)
         {
             return response()->json("No user found", 401);
         }
-        $public_key = $user->public_key;
-        $signature = $request->input('signature');
-        $payload = $request->input('payload');
 
-        if($this->verifyPayloadData($payload))
+        $public_key = $user->public_key;
+
+        try
         {
-            return $this->authorizeLogin($request);
+            if(Clef::verify_login_payload($payload_bundle, $public_key))
+            {
+                $tokenResult = $user->createToken('Personal Access Token');
+                $token = $tokenResult->token;
+
+                $token->expires_at = Carbon::now()->addWeeks(1);
+                $token->save();
+                $user->logged_out_at = null;
+                $user->logged_in_at = now();
+
+                return response()->json([
+                    "access_token" => $tokenResult->accessToken,
+                    "token_type" => "Bearer",
+                    "expires_at" => Carbon::parse(
+                        $tokenResult->token->expires_at)->toDateTimeString()
+                ],
+                200);
+            }
         }
+        catch(VerificationError $error)
+        {
+            return response()->json($error->getMessage(), 401);
+        }
+        catch(BadSignatureError $error)
+        {
+            return response()->json($error->getMessage(), 401);
+        }
+
 
         return $this->sendFailedLoginResponse($request);
     }
@@ -87,23 +127,29 @@ class LoginController extends Controller
 
     }
 
-    private function generateSession($id = null)
+    private function generateSession()
     {
-        if(isset($_SESSION))
+        if(!session_id())
         {
-            session_destroy();
-        }
-        if($id == null)
-        {
-            session_start();
-        }
-        else
-        {
-            session_id($id);
             session_start();
         }
 
-        $this->session_id = session_id();
+        if(isset($SESSION['state']))
+        {
+            return $SESSION['state'];
+        }
+
+        $data = openssl_random_pseudo_bytes(64, true);
+
+        if($data === "false")
+        {
+            return response()->json("Server error, please try again.", 500);
+        }
+
+        $session_state = strtr(base64_encode($data), '+/=', '-_,');
+        $SESSION['state'] = $session_state;
+
+        return $session_state;
     }
 
     public function logout()

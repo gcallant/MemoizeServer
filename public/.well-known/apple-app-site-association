@@ -14,7 +14,7 @@
         "details": [
             {
                 "appID": "N3XUA4BNHL.com.grantcallant.Memoize",
-                "paths": [ "*", "/" ]
+                "paths": [ "/startLogin" ]
             }
         ]
     }
