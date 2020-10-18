@@ -99,7 +99,6 @@ class LoginController extends Controller
                 $token->save();
                 $user->logged_out_at = null;
                 $user->logged_in_at = now();
-
                 return response()->json([
                     "access_token" => $tokenResult->accessToken,
                     "token_type" => "Bearer",

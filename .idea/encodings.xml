@@ -3,23 +3,30 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/.env" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.env.testing" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/.gitignore" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/.htaccess" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.idea/.gitignore" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Database/Factories/UserFactory.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Database/migrations/2014_10_12_000000_create_users_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Events/LoginAuthorized.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/Controller.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/UserController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Kernel.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Listeners/SendLoginAuthorization.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Policies/UserPolicy.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Providers/TelescopeServiceProvider.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/User.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/helpers.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bootstrap/cache/config.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/clef/clef-php/lib/Configuration.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/composer.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/app.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/auth.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/database/factories/UserFactory.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/key.pub" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/public/.htaccess" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/public/.well-known/.htaccess" charset="UTF-8" />
@@ -52,8 +59,10 @@
     <file url="file://$PROJECT_DIR$/routes/web.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tailwind.config.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/AuthenticationTest.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tests/Feature/TokenTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Clef.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Signing.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vendor/laravel/passport/src/Guards/TokenGuard.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/phpseclib/phpseclib/phpseclib/openssl.cnf" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webpack.mix.js" charset="UTF-8" />
     <file url="PROJECT" charset="windows-1252" />

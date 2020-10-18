@@ -4,10 +4,8 @@ namespace Tests\Feature;
 
 use App\User;
 use Clef\Clef;
-use Clef\Client;
 use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;
@@ -25,7 +23,8 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function an_authorized_user_can_be_authenticated()
     {
-        $user = factory(User::class)->create();
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create();
         list($privateKey, $publicKey) = $this->createKeypair();
         $user->public_key = $publicKey["key"];
         $user->save();
@@ -57,8 +56,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function an_unauthorized_user_cannot_be_authenticated()
     {
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         list($privateKey, $publicKey) = $this->createKeypair();
         $user->public_key = $publicKey["key"];
         $user->save();
@@ -95,7 +93,7 @@ class AuthenticationTest extends TestCase
             'updated_at' => new DateTime,
         ]);
 
-        $clientSecret = 'OkTk0syXWL8D7dqh4zmeOcN0EXoAe0nuSMjz188h';
+        $clientSecret = 'smRCHamQGXSIec8MqBHQHKcASW7NcxA0Z8w4qmlQ';
         $client->setSecretAttribute($clientSecret);
         $client->save();
     }

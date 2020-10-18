@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Passport::hashClientSecrets();
+//        Passport::hashClientSecrets();
+//
+//        Passport::personalAccessClient(config('passport.personal_access_client.id'));
+//        Passport::personalAccessClientSecret(config('passport.personal_access_client.secret'));
     }
 }

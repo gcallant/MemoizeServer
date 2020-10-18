@@ -16,12 +16,15 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+//
+//Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/', function(){
     return view('welcome');
 });
+
+Route::post('/login', 'Auth\LoginController@login');
+Route::get('/home', 'HomeController@index');
 
 Route::get('register/verify/{confirmation_code}', [
     'as' => 'confirmation_path',
