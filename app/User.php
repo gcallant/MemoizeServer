@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,4 +40,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function actingAsLoggedIn()
+    {
+        $this->logged_in_at = now();
+        $this->logged_out_at = Carbon::tomorrow();
+    }
+
+    public function isLoggedIn() : bool
+    {
+        if( $this->logged_in_at < $this->logged_out_at)
+            {
+                return true;
+            }
+        return false;
+    }
 }

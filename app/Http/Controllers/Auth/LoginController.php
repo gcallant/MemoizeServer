@@ -97,7 +97,7 @@ class LoginController extends Controller
 
                 $token->expires_at = Carbon::now()->addWeeks(1);
                 $token->save();
-                $user->logged_out_at = null;
+                $user->logged_out_at = Carbon::tomorrow();
                 $user->logged_in_at = now();
                 return response()->json([
                     "access_token" => $tokenResult->accessToken,

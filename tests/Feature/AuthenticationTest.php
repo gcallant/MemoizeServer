@@ -8,22 +8,18 @@ use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\ClientRepository;
+use Tests\Helpers\HelperFunctions;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() : void
-    {
-        parent::setUp();
-        $this->createClient();
-    }
-
     /** @test */
     public function an_authorized_user_can_be_authenticated()
     {
-        $this->withoutExceptionHandling();
+        HelperFunctions::createTestClient();
+
         $user = User::factory()->create();
         list($privateKey, $publicKey) = $this->createKeypair();
         $user->public_key = $publicKey["key"];
@@ -56,6 +52,8 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function an_unauthorized_user_cannot_be_authenticated()
     {
+        HelperFunctions::createTestClient();
+
         $user = User::factory()->create();
         list($privateKey, $publicKey) = $this->createKeypair();
         $user->public_key = $publicKey["key"];
@@ -78,24 +76,6 @@ class AuthenticationTest extends TestCase
         ];
 
         $this->postJson("/api/login", $encodedPayload)->assertStatus(401);
-    }
-
-    private function createClient() : void
-    {
-        $clientRepository = new ClientRepository();
-        $client = $clientRepository->createPersonalAccessClient(
-            null, 'Test Personal Access Client', 'http://localhost'
-        );
-
-        DB::table('oauth_personal_access_clients')->insert([
-            'client_id'  => $client->id,
-            'created_at' => new DateTime,
-            'updated_at' => new DateTime,
-        ]);
-
-        $clientSecret = 'smRCHamQGXSIec8MqBHQHKcASW7NcxA0Z8w4qmlQ';
-        $client->setSecretAttribute($clientSecret);
-        $client->save();
     }
 
     /**

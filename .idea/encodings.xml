@@ -59,7 +59,11 @@
     <file url="file://$PROJECT_DIR$/routes/web.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tailwind.config.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/AuthenticationTest.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tests/Feature/GateTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/TokenTest.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tests/Helpers/HelperFunctions.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tests/Helpers/HelperFunctions.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tests/Helpers/HelperFunctions.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Clef.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Signing.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/laravel/passport/src/Guards/TokenGuard.php" charset="UTF-8" />
