@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +16,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/user', function(Request $request) {
-    return \App\User::find(1);
-})->middleware('auth:api');
-Route::post('/user', 'UserController@store')->middleware('client:create-users');
-Route::post('/login', 'Auth\LoginController@login');
-Route::get('home', [HomeController::class, 'index']);
+
+Route::post('user', [UserController::class, 'store'])->middleware('client:create-users');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:api');
+Route::get('home', [HomeController::class, 'index'])->middleware('auth:api');
 

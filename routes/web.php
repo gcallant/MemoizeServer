@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,8 +25,9 @@ Route::get('/', function(){
     return view('welcome');
 });
 
-Route::post('/login', 'Auth\LoginController@login');
-Route::get('/home', 'HomeController@index');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:api');
+Route::get('home', [HomeController::class, 'index'])->middleware('auth:api');
 
 Route::get('register/verify/{confirmation_code}', [
     'as' => 'confirmation_path',

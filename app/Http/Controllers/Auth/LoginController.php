@@ -12,10 +12,13 @@ use Clef\BadSignatureError;
 use Clef\Clef;
 use Clef\VerificationError;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Laravel\Passport\Passport;
+
 class LoginController extends Controller
 {
     /*
@@ -99,13 +102,15 @@ class LoginController extends Controller
                 $token->save();
                 $user->logged_out_at = Carbon::tomorrow();
                 $user->logged_in_at = now();
-                return response()->json([
+                $responsePayload = [
                     "access_token" => $tokenResult->accessToken,
-                    "token_type" => "Bearer",
-                    "expires_at" => Carbon::parse(
+                    "token_type"   => "Bearer",
+                    "expires_at"   => Carbon::parse(
                         $tokenResult->token->expires_at)->toDateTimeString()
-                ],
-                200);
+                ];
+                return $request->wantsJson()
+                ? new JsonResponse($responsePayload, 200)
+                : redirect('/home');
             }
         }
         catch(VerificationError $error)
@@ -151,9 +156,27 @@ class LoginController extends Controller
         return $session_state;
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+        $request->session()->invalidate();
 
+        $request->session()->regenerateToken();
+
+        $user = $request->user();
+        $tokenRepository = app('Laravel\Passport\TokenRepository');
+        $tokens = $tokenRepository->forUser($user->id);
+        // Revoke all access tokens...
+        foreach($tokens as $token)
+        {
+            $tokenRepository->revokeAccessToken($token->id);
+            $token->destroy($token->id);
+        }
+
+        $user->logged_out = now();
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect('/');
     }
 
     public function __construct()

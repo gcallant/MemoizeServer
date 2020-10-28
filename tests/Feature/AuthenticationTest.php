@@ -41,7 +41,7 @@ class AuthenticationTest extends TestCase
             "payload" => Clef::encode_payload($signedPayload)
         ];
 
-        $this->postJson("/api/login", $encodedPayload)->assertStatus(200)
+        $this->postJson("/login", $encodedPayload)->assertStatus(200)
         ->assertJsonStructure([
             "access_token",
             "token_type",
@@ -75,7 +75,7 @@ class AuthenticationTest extends TestCase
             "payload" => Clef::encode_payload($signedPayload)
         ];
 
-        $this->postJson("/api/login", $encodedPayload)->assertStatus(401);
+        $this->postJson("/login", $encodedPayload)->assertStatus(401);
     }
 
     /**

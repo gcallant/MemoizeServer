@@ -5,13 +5,14 @@ namespace Tests\Helpers;
 
 
 use Illuminate\Support\Facades\DB;
+use Laravel\Passport\Client;
 use Laravel\Passport\ClientRepository;
 use DateTime;
 
 class HelperFunctions
 {
 
-    public static function createTestClient() : void
+    public static function createTestClient() : Client
     {
         $clientRepository = new ClientRepository();
         $client = $clientRepository->createPersonalAccessClient(
@@ -27,5 +28,7 @@ class HelperFunctions
         $clientSecret = 'smRCHamQGXSIec8MqBHQHKcASW7NcxA0Z8w4qmlQ';
         $client->setSecretAttribute($clientSecret);
         $client->save();
+
+        return $client;
     }
 }

@@ -42,11 +42,11 @@ class UserController extends Controller
 
         if($user != null)
         {
-            return response()->json($user, 200);
+            return response()->json("User created", 200);
         }
         else
         {
-            return response()->json(null, 400);
+            return response()->json("Error validating user", 400);
         }
     }
 
