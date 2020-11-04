@@ -23,7 +23,7 @@ class TokenTest extends TestCase
     /** @test */
     public function a_valid_token_can_access_a_protected_resource()
     {
-        HelperFunctions::createTestClient();
+        HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
         $token= $user->createToken('Personal Access Token')->accessToken;
 
@@ -36,9 +36,10 @@ class TokenTest extends TestCase
     /** @test */
     public function an_invalid_token_cannot_access_a_protected_resource()
     {
-        HelperFunctions::createTestClient();
+        HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
         $token= $user->createToken('Personal Access Token');
+
 
         $tokenRepository = app('Laravel\Passport\TokenRepository');
         // Revoke an access token...

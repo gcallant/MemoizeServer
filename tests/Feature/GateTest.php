@@ -20,7 +20,7 @@ class GateTest extends TestCase
     /** @test */
     public function a_logged_in_user_is_allowed_gated_access_to_a_protected_resource()
     {
-        HelperFunctions::createTestClient();
+        HelperFunctions::createTestPersonalAccessClient();
 
         $user = User::factory()->create();
         $token= $user->createToken('Personal Access Token')->accessToken;

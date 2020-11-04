@@ -22,17 +22,16 @@ class LogoutTest extends TestCase
     public function an_authenticated_user_can_logout()
     {
         $this->withoutExceptionHandling();
-        $client = HelperFunctions::createTestClient();
+        $client = HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
 
-        $token = $user->createToken('Personal Access Token', ['login']);
+        $token = $user->createToken('Personal Access Token');
 
         $attributes = [
             'id' => $token->token->id,
             'user_id' => '1',
             'client_id' => '1',
             'name' => 'Personal Access Token',
-            'scopes' => "[\"login\"]",
             'revoked' => '0',
             'created_at' => $token->token->created_at,
             'updated_at' => $token->token->updated_at,
@@ -56,20 +55,37 @@ class LogoutTest extends TestCase
     /** @test */
     public function a_logged_out_user_cannot_access_a_protected_resource()
     {
-        HelperFunctions::createTestClient();
+        $this->withoutExceptionHandling();
+        HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
-        $token = $user->createToken('Personal Access Token', ['login']);
+        $token = $user->createToken('Personal Access Token');
 
         $tokenRepository = app('Laravel\Passport\TokenRepository');
-
+        print($token->token->id . "\n");
         $this->withHeader('Authorization', 'Bearer ' . $token->accessToken)
             ->json('post', 'logout')
             ->assertStatus(204);
 
-        self::assertTrue($tokenRepository->isAccessTokenRevoked($token->token->id));
+        $tokenRepository = app('Laravel\Passport\TokenRepository');
+        // Revoke an access token...
+        $tokenRepository->revokeAccessToken($token->token->id);
 
-        $this->withHeader('Authorization', 'Bearer ' . $token->accessToken)
-            ->json('get', '/home')
+        $attributes = [
+            'id' => $token->token->id,
+            'user_id' => '1',
+            'client_id' => '1',
+            'name' => 'Personal Access Token',
+            'revoked' => '1',
+            'created_at' => $token->token->created_at,
+            'updated_at' => $token->token->updated_at,
+            'expires_at' => $token->token->expires_at,
+
+        ];
+//        $this->assertDatabaseMissing('oauth_access_tokens', $attributes);
+        print($token->token->id . "\n");
+
+        $this->withHeader('', '')
+            ->json('get', 'home')
             ->assertStatus(401);
     }
 }

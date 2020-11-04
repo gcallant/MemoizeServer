@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
+use Laravel\Passport\Token;
 
 class LoginController extends Controller
 {
@@ -156,21 +157,20 @@ class LoginController extends Controller
         return $session_state;
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request, Token $token)
     {
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
         $user = $request->user();
+
         $tokenRepository = app('Laravel\Passport\TokenRepository');
-        $tokens = $tokenRepository->forUser($user->id);
-        // Revoke all access tokens...
-        foreach($tokens as $token)
-        {
+
+
+            print($token->id . "\n");
             $tokenRepository->revokeAccessToken($token->id);
-            $token->destroy($token->id);
-        }
+//            $token->delete();
 
         $user->logged_out = now();
 

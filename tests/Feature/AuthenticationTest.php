@@ -18,7 +18,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function an_authorized_user_can_be_authenticated()
     {
-        HelperFunctions::createTestClient();
+        HelperFunctions::createTestPersonalAccessClient();
 
         $user = User::factory()->create();
         list($privateKey, $publicKey) = $this->createKeypair();
@@ -52,7 +52,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function an_unauthorized_user_cannot_be_authenticated()
     {
-        HelperFunctions::createTestClient();
+        HelperFunctions::createTestPersonalAccessClient();
 
         $user = User::factory()->create();
         list($privateKey, $publicKey) = $this->createKeypair();
