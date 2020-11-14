@@ -38,7 +38,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create($this->validator($request->all()));
+        $attributes = $request->validate([
+            'name' => 'required|string|max:255|min:2',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|phone:US,mobile|min:10|unique:users',
+            'public_key' => 'required'
+        ]);
+
+        $user = User::create($attributes);
 
         if($user != null)
         {
@@ -61,7 +68,8 @@ class UserController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255|min:2',
             'email' => 'required|string|email|max:255|unique:users|confirmed',
-            'phone' => 'required|phone:US|min:10|unique:users'
+            'phone' => 'required|phone:US|min:10|unique:users',
+            'public_key' => 'required'
         ]);
     }
 

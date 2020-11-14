@@ -58,34 +58,51 @@ class LogoutTest extends TestCase
         $this->withoutExceptionHandling();
         HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
-        $token = $user->createToken('Personal Access Token');
+        $tokenResult = $user->createToken('Personal Access Token');
+        $token = $tokenResult->token;
 
-        $tokenRepository = app('Laravel\Passport\TokenRepository');
-        print($token->token->id . "\n");
-        $this->withHeader('Authorization', 'Bearer ' . $token->accessToken)
+        $attributes = [
+            'id' => $token->id,
+            'user_id' => '1',
+            'client_id' => '1',
+            'name' => 'Personal Access Token',
+            'revoked' => '0',
+            'created_at' => $token->created_at,
+            'updated_at' => $token->updated_at,
+            'expires_at' => $token->expires_at,
+
+        ];
+        $this->assertDatabaseHas('oauth_access_tokens', $attributes);
+
+        $this->withHeader('Authorization', 'Bearer ' . $tokenResult->accessToken)
+            ->json('get', '/api/home')
+            ->assertStatus(200);
+
+        $this->withHeader('Authorization', 'Bearer ' . $tokenResult->accessToken)
             ->json('post', 'logout')
             ->assertStatus(204);
 
         $tokenRepository = app('Laravel\Passport\TokenRepository');
-        // Revoke an access token...
-        $tokenRepository->revokeAccessToken($token->token->id);
+
+
+
+        self::assertTrue($tokenRepository->isAccessTokenRevoked($token->id));
 
         $attributes = [
-            'id' => $token->token->id,
+            'id' => $token->id,
             'user_id' => '1',
             'client_id' => '1',
             'name' => 'Personal Access Token',
-            'revoked' => '1',
-            'created_at' => $token->token->created_at,
-            'updated_at' => $token->token->updated_at,
-            'expires_at' => $token->token->expires_at,
+            'revoked' => '0',
+            'created_at' => $token->created_at,
+            'updated_at' => $token->updated_at,
+            'expires_at' => $token->expires_at,
 
         ];
-//        $this->assertDatabaseMissing('oauth_access_tokens', $attributes);
-        print($token->token->id . "\n");
+        $this->assertDatabaseMissing('oauth_access_tokens', $attributes);
 
-        $this->withHeader('', '')
-            ->json('get', 'home')
-            ->assertStatus(401);
+//        $this->withHeader('Authorization', 'Bearer ' . $tokenResult->accessToken)
+//            ->json('get', '/api/test')
+//            ->assertStatus(401);
     }
 }

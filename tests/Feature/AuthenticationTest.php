@@ -4,10 +4,7 @@ namespace Tests\Feature;
 
 use App\User;
 use Clef\Clef;
-use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
-use Laravel\Passport\ClientRepository;
 use Tests\Helpers\HelperFunctions;
 use Tests\TestCase;
 
@@ -21,7 +18,7 @@ class AuthenticationTest extends TestCase
         HelperFunctions::createTestPersonalAccessClient();
 
         $user = User::factory()->create();
-        list($privateKey, $publicKey) = $this->createKeypair();
+        list($privateKey, $publicKey) = HelperFunctions::createKeypair();
         $user->public_key = $publicKey["key"];
         $user->save();
 
@@ -55,10 +52,10 @@ class AuthenticationTest extends TestCase
         HelperFunctions::createTestPersonalAccessClient();
 
         $user = User::factory()->create();
-        list($privateKey, $publicKey) = $this->createKeypair();
+        list($privateKey, $publicKey) = HelperFunctions::createKeypair();
         $user->public_key = $publicKey["key"];
         $user->save();
-        list($wrongPrivateKey, $wrongPublicKey) = $this->createKeypair();
+        list($wrongPrivateKey, $wrongPublicKey) = HelperFunctions::createKeypair();
         Clef::configure(array(
             "id" => 6,
             "secret" => "sdfw34sefasdf2q34rsadfsdf",
@@ -76,24 +73,5 @@ class AuthenticationTest extends TestCase
         ];
 
         $this->postJson("/login", $encodedPayload)->assertStatus(401);
-    }
-
-    /**
-     * @return array
-     */
-    private function createKeypair() : array
-    {
-        $configargs = array(
-            "config"           => "C:\php\openssl.cfg",
-            "digest_alg"       => "sha512",
-            "curve_name"       => "prime256v1",
-            "private_key_type" => OPENSSL_KEYTYPE_EC
-        );
-        $privateKey = null;
-        $newKey = openssl_pkey_new($configargs);
-        openssl_pkey_export($newKey, $privateKey, null, $configargs);
-        $publicKey = openssl_pkey_get_details($newKey);
-
-        return array($privateKey, $publicKey);
     }
 }

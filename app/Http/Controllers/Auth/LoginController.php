@@ -157,31 +157,38 @@ class LoginController extends Controller
         return $session_state;
     }
 
-    public function logout(Request $request, Token $token)
+    public function logout(Request $request)
     {
-        $request->session()->invalidate();
+        $guard = $this->guard();
 
-        $request->session()->regenerateToken();
+        if($this->guard()->id() === 0)
+        {
+            $this->guard()->logout();
+            $request->session()->invalidate();
 
-        $user = $request->user();
+            $request->session()->regenerateToken();
+        }
+
+        $user = Auth::user();
+        $token = $user->token();
 
         $tokenRepository = app('Laravel\Passport\TokenRepository');
 
+        $tokenRepository->revokeAccessToken($token->id);
+        $token->revoke();
 
-            print($token->id . "\n");
-            $tokenRepository->revokeAccessToken($token->id);
-//            $token->delete();
+        $token->delete();
 
         $user->logged_out = now();
 
         return $request->wantsJson()
-            ? new JsonResponse([], 204)
-            : redirect('/');
+            ? new JsonResponse("You've been logged out", 204)
+            : redirect('login');
     }
 
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+//        $this->middleware('guest')->except('logout');
     }
 
     public function clientAuthorized(Request $request)

@@ -14645,6 +14645,26 @@
      
 }
 
+    namespace Illuminate\Validation { 
+            /**
+     * 
+     *
+     */ 
+        class Rule {
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function phone()
+        {
+                        return \Illuminate\Validation\Rule::phone();
+        }
+         
+    }
+     
+}
+
 
 namespace  { 
             class App extends \Illuminate\Support\Facades\App {}
