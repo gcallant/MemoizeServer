@@ -3,7 +3,6 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +18,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('user', [UserController::class, 'store'])->middleware('client:create-users');
 Route::post('login', [LoginController::class, 'login']);
-Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:api');
-Route::get('home', [HomeController::class, 'index'])->middleware('auth:api');
+Route::post('logout', [LoginController::class, 'logout'])->middleware(['auth:api', 'scope:user']);
+Route::get('isAuthenticated', function() {
+})->middleware('auth:api');
+//Route::get('home', [HomeController::class, 'index'])->middleware(['auth:api', 'scope:user']);
+
+
+Route::get('stats', function() {
+    return [
+        'series' => 200,
+        'lessons' => 1300
+    ];
+});
+
+Route::get('achievements', function() {
+    $user = \request()->user();
+
+    return [
+        "phone" => $user->phone,
+        "email" => $user->email,
+    ];
+})->middleware('auth:api');
 

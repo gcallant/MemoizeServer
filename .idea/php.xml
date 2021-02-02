@@ -142,6 +142,11 @@
       <path value="$PROJECT_DIR$/vendor/propaganistas/laravel-phone" />
       <path value="$PROJECT_DIR$/vendor/giggsey/locale" />
       <path value="$PROJECT_DIR$/vendor/giggsey/libphonenumber-for-php" />
+      <path value="$PROJECT_DIR$/vendor/dasprid/enum" />
+      <path value="$PROJECT_DIR$/vendor/pusher/pusher-php-server" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/sodium_compat" />
+      <path value="$PROJECT_DIR$/vendor/namshi/jose" />
+      <path value="$PROJECT_DIR$/vendor/tymon/jwt-auth" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

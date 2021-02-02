@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/.babelrc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.env" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.env.remote" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.env.testing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.gitignore" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.htaccess" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/.idea/.gitignore" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Database/Factories/UserFactory.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Database/migrations/2014_10_12_000000_create_users_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Events/LoginAuthorized.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Events/MyEvent.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Guards/CustomRequestGuard.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" charset="UTF-8" />
@@ -18,6 +21,7 @@
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/TestController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/UserController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Kernel.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Middleware/Cors.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Listeners/SendLoginAuthorization.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Policies/UserPolicy.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php" charset="UTF-8" />
@@ -31,18 +35,38 @@
     <file url="file://$PROJECT_DIR$/config/app.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/auth.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/database.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config/jwt.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config/session.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/key.pub" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/public/.htaccess" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/public/.well-known/.htaccess" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/public/.well-known/apple-app-site-association" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/app.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/bootstrap.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/clef.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Achievements.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/BirdboardForm.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/ColorRange.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Colors.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Dropdown.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Illustrations.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/LoadersAndAnimations.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/LoggedIn.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Login.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/LoginModal.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Logo.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/LogoSymbol.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Mascot.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/NewProjectModal.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/NotFound.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/SiteStats.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/TaskList.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/ThemeSwitcher.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Typography.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Wallpapers.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/new.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/routes.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/sass/app.scss" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/sass/components/button.scss" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/sass/components/card.scss" charset="UTF-8" />
@@ -54,11 +78,14 @@
     <file url="file://$PROJECT_DIR$/resources/views/auth/login.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/email/verify.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/errors.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/home.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/includes/error.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/includes/footer.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/includes/head.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/includes/header.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/layouts/app.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/layouts/vue.blade.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/views/pusher.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/routes/api.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/routes/web.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tailwind.config.js" charset="UTF-8" />
@@ -66,7 +93,7 @@
     <file url="file://$PROJECT_DIR$/tests/Feature/GateTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/LogoutTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/RegisterUserTest.php" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/tests/Feature/RegisterUserTest.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tests/Feature/RemoteLoginTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/TokenTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Helpers/HelperFunctions.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Clef.php" charset="UTF-8" />

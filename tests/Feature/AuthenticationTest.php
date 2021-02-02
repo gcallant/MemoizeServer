@@ -39,11 +39,48 @@ class AuthenticationTest extends TestCase
         ];
 
         $this->postJson("/login", $encodedPayload)->assertStatus(200)
-        ->assertJsonStructure([
-            "access_token",
-            "token_type",
-            "expires_at"
-        ]);
+            ->assertJsonStructure([
+                "access_token",
+                "token_type",
+                "expires_at"
+            ]);
+    }
+
+    /** @test */
+    public function an_authenticated_user_can_access_a_protected_resource()
+    {
+        $this->withoutExceptionHandling();
+        HelperFunctions::createTestPersonalAccessClient();
+
+        $user = User::factory()->create();
+        list($privateKey, $publicKey) = HelperFunctions::createKeypair();
+        $user->public_key = $publicKey["key"];
+        $user->save();
+
+        Clef::configure(array(
+            "id" => 6,
+            "secret" => "sdfw34sefasdf2q34rsadfsdf",
+            "keypair" => $privateKey,
+            "passphrase" => ""));
+
+        $signedPayload = Clef::sign_login_payload(array(
+            "nonce" => bin2hex(openssl_random_pseudo_bytes(16)),
+            "clef_id" => $user->id,
+            "redirect_url" => '',
+            "session_id" => session_id()));
+
+        $encodedPayload = [
+            "payload" => Clef::encode_payload($signedPayload)
+        ];
+
+        $token = $this->postJson("/login", $encodedPayload)->assertStatus(200)
+            ->assertJsonStructure([
+                "access_token",
+                "token_type",
+                "expires_at"
+            ]);
+        $this->withHeader('Authorization', 'Bearer ' . $token['access_token'])
+            ->json('get', '/home')->assertStatus(200);
     }
 
     /** @test */

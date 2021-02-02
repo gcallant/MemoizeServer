@@ -25,7 +25,7 @@ class LogoutTest extends TestCase
         $client = HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
 
-        $token = $user->createToken('Personal Access Token');
+        $token = $user->createToken('Personal Access Token', ['user']);
 
         $attributes = [
             'id' => $token->token->id,
@@ -58,7 +58,7 @@ class LogoutTest extends TestCase
         $this->withoutExceptionHandling();
         HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $user->createToken('Personal Access Token', ['user']);
         $token = $tokenResult->token;
 
         $attributes = [

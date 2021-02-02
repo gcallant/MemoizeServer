@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\LoginAuthorizationRequested;
 use App\Events\LoginAuthorized;
+use App\Events\MyEvent;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
@@ -11,14 +12,16 @@ use Carbon\Carbon;
 use Clef\BadSignatureError;
 use Clef\Clef;
 use Clef\VerificationError;
+use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Laravel\Passport\Passport;
-use Laravel\Passport\Token;
+use JsonException;
+use Psr\SimpleCache\InvalidArgumentException;
+use Response;
 
 class LoginController extends Controller
 {
@@ -41,34 +44,30 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
-    private $session_id = '';
+    private $random_id = '';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+    public function __construct()
+    {
+//        $this->middleware('guest')->except('logout');
+    }
 
     /**
      * Display the specified resource.
      *
      * @param \App\User $userID
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show()
     {
-        $session_id = "empty";
+        $random_id = $this->generateRandomID();
 
-        return View('auth.login', compact('session_id'));
-    }
 
-    public function startLogin()
-    {
-        //Check if mobile device -> Redirect back to app to continue login ...
-        $this->generateSession();
-        $session_id = $this->session_id;
-
-        return View('welcome', compact('session_id'));
+        return View('auth.login', compact('random_id'));
     }
 
     public function login(Request $request)
@@ -78,16 +77,18 @@ class LoginController extends Controller
         {
             $signed_payload = json_decode($payload_bundle["payload_json"], true, 512, JSON_THROW_ON_ERROR);
         }
-        catch(\JsonException $e)
+        catch(JsonException $e)
         {
-            return response()->json($e->getMessage(), 401);
+            return response()->json(['error' => 'Error decoding payload'], 401);
         }
 
         $user = User::find($signed_payload["clef_id"]);
+        $randomID = $signed_payload['randomID'];
+        $ttl = 60; //Seconds to keep in cache
 
         if($user === null)
         {
-            return response()->json("No user found", 401);
+            return response()->json(['error' => "No user found"], 401);
         }
 
         $public_key = $user->public_key;
@@ -96,29 +97,17 @@ class LoginController extends Controller
         {
             if(Clef::verify_login_payload($payload_bundle, $public_key))
             {
-                $tokenResult = $user->createToken('Personal Access Token');
-                $token = $tokenResult->token;
-
-                $token->expires_at = Carbon::now()->addWeeks(1);
-                $token->save();
-                $user->logged_out_at = Carbon::tomorrow();
-                $user->logged_in_at = now();
-                $responsePayload = [
-                    "access_token" => $tokenResult->accessToken,
-                    "token_type"   => "Bearer",
-                    "expires_at"   => Carbon::parse(
-                        $tokenResult->token->expires_at)->toDateTimeString()
-                ];
+                cache()->set($randomID, $user->id, $ttl);
                 return $request->wantsJson()
-                ? new JsonResponse($responsePayload, 200)
-                : redirect('/home');
+                    ? new JsonResponse(['status' => true], 200)
+                    : redirect('/home');
             }
         }
         catch(VerificationError $error)
         {
-            return response()->json($error->getMessage(), 401);
+            return response()->json(['error' => 'error validating user data'], 401);
         }
-        catch(BadSignatureError $error)
+        catch(BadSignatureError | InvalidArgumentException | Exception $error)
         {
             return response()->json($error->getMessage(), 401);
         }
@@ -132,19 +121,19 @@ class LoginController extends Controller
 
     }
 
-    private function generateSession()
+    private function generateRandomID()
     {
         if(!session_id())
         {
             session_start();
         }
 
-        if(isset($SESSION['state']))
+        if(isset($_SESSION['state']))
         {
-            return $SESSION['state'];
+            return $_SESSION['state'];
         }
 
-        $data = openssl_random_pseudo_bytes(64, true);
+        $data = openssl_random_pseudo_bytes(64);
 
         if($data === "false")
         {
@@ -152,15 +141,13 @@ class LoginController extends Controller
         }
 
         $session_state = strtr(base64_encode($data), '+/=', '-_,');
-        $SESSION['state'] = $session_state;
+        $_SESSION['state'] = $session_state;
 
         return $session_state;
     }
 
     public function logout(Request $request)
     {
-        $guard = $this->guard();
-
         if($this->guard()->id() === 0)
         {
             $this->guard()->logout();
@@ -169,26 +156,23 @@ class LoginController extends Controller
             $request->session()->regenerateToken();
         }
 
-        $user = Auth::user();
-        $token = $user->token();
+        if($user = Auth::user())
+        {
+            $token = $user->token();
 
-        $tokenRepository = app('Laravel\Passport\TokenRepository');
+            $tokenRepository = app('Laravel\Passport\TokenRepository');
 
-        $tokenRepository->revokeAccessToken($token->id);
-        $token->revoke();
+            $tokenRepository->revokeAccessToken($token->id);
+            $token->revoke();
 
-        $token->delete();
+            $token->delete();
 
-        $user->logged_out = now();
+            $user->logged_out = now();
 
-        return $request->wantsJson()
-            ? new JsonResponse("You've been logged out", 204)
-            : redirect('login');
-    }
-
-    public function __construct()
-    {
-//        $this->middleware('guest')->except('logout');
+            return $request->wantsJson()
+                ? new JsonResponse("You've been logged out", 204)
+                : redirect('login');
+        }
     }
 
     public function clientAuthorized(Request $request)
@@ -209,55 +193,93 @@ class LoginController extends Controller
         return ['status' => true];
     }
 
-    public function authorizeLogin(Request $request)
-    {
-        $request->validate([
-            'hash'            => 'required|string',
-            'password'        => 'required|string',
-            $this->username() => 'required|string',
-        ]);
-
-        $sentHash = $request->get('hash');
-        [$hashKey] = explode('.', $sentHash);
-        $storedHash = cache()->get($hashKey . '_login_hash');
-
-        if(!Hash::check($sentHash, $storedHash) || !$this->attemptLogin($request))
-        {
-            abort(422);
-        }
-
-        return ['status' => true];
-    }
+//    public function authorizeLogin(Request $request)
+//    {
+//        $request->validate([
+//            'hash'            => 'required|string',
+//            'password'        => 'required|string',
+//            $this->username() => 'required|string',
+//        ]);
+//
+//        $sentHash = $request->get('hash');
+//        [$hashKey] = explode('.', $sentHash);
+//        $storedHash = cache()->get($hashKey . '_login_hash');
+//
+//        if(!Hash::check($sentHash, $storedHash) || !$this->attemptLogin($request))
+//        {
+//            abort(422);
+//        }
+//
+//        return ['status' => true];
+//    }
 
     public function confirmLogin(Request $request)
     {
-        $this->validateLogin($request);
-
-        if($this->hasTooManyLoginAttempts($request))
+        try
         {
-            $this->fireLockoutEvent($request);
-
-            return $this->sendLockoutResponse($request);
+            $user = User::find(1);
+            //$user = cache()->get($request->randomID);
         }
-
-        if($this->guard()->validate($this->credentials($request)))
+        catch(Exception $e)
         {
-            $username = $request->get($this->username());
-            $hashKey = sha1($username . '_' . Str::random(32));
-            $unhashedLoginHash = $hashKey . '.' . Str::random(32);
-
-            // Store the hash for 5 minutes...
-            $mins = now()->addMinutes(5);
-            $key = "{$hashKey}_login_hash";
-            cache()->put($key, Hash::make($unhashedLoginHash), $mins);
-
-            event(new LoginAuthorizationRequested($unhashedLoginHash, $username));
-
-            return ['status' => true];
+            return new JsonResponse('Incorrect login data', 401);
         }
+        $responsePayload = $this->createResonsePayload($user);
 
-        $this->incrementLoginAttempts($request);
+        return new JsonResponse($responsePayload, 200);
+    }
 
-        return $this->sendFailedLoginResponse($request);
+//    public function confirLogin(Request $request)
+//    {
+//        $this->validateLogin($request);
+//
+//        if($this->hasTooManyLoginAttempts($request))
+//        {
+//            $this->fireLockoutEvent($request);
+//
+//            return $this->sendLockoutResponse($request);
+//        }
+//
+//        if($this->guard()->validate($this->credentials($request)))
+//        {
+//            $username = $request->get($this->username());
+//            $hashKey = sha1($username . '_' . Str::random(32));
+//            $unhashedLoginHash = $hashKey . '.' . Str::random(32);
+//
+//            // Store the hash for 5 minutes...
+//            $mins = now()->addMinutes(5);
+//            $key = "{$hashKey}_login_hash";
+//            cache()->put($key, Hash::make($unhashedLoginHash), $mins);
+//
+//            event(new LoginAuthorizationRequested($unhashedLoginHash, $username));
+//
+//            return ['status' => true];
+//        }
+//
+//        $this->incrementLoginAttempts($request);
+//
+//        return $this->sendFailedLoginResponse($request);
+//    }
+
+    /**
+     * @param $user
+     * @return array
+     */
+    private function createResonsePayload($user) : array
+    {
+        $tokenResult = $user->createToken('Personal Access Token', ['user']);
+        $token = $tokenResult->token;
+
+        $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->save();
+        $user->logged_out_at = Carbon::tomorrow();
+        $user->logged_in_at = now();
+
+        return [
+            "access_token" => $tokenResult->accessToken,
+            "token_type"   => "Bearer",
+            "expires_at"   => Carbon::parse(
+                $tokenResult->token->expires_at)->toDateTimeString()
+        ];
     }
 }

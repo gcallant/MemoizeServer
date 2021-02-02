@@ -17,17 +17,19 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Auth::routes();
+//Auth::routes();
 //
 //Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/login', [LoginController::class, 'show'])->name('login');
 
-Route::get('/', function(){
-    return view('welcome');
-});
+Route::get('{any}', function(){
+    return view('layouts.vue');
+})->where('any', '.*');
 
-Route::post('login', [LoginController::class, 'login']);
-Route::post('logout', [LoginController::class, 'logout'])->middleware('auth:api');
-Route::get('home', [HomeController::class, 'index'])->middleware('auth:api');
+
+Route::post('login/confirm', [LoginController::class, 'confirmLogin']);
+Route::post('logout', [LoginController::class, 'logout'])->middleware(['auth:api', 'scope:user']);
+//Route::get('home', [HomeController::class, 'index'])->middleware(['auth:api', 'scope:user']);
 
 Route::get('register/verify/{confirmation_code}', [
     'as' => 'confirmation_path',

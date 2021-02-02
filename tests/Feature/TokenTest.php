@@ -28,7 +28,7 @@ class TokenTest extends TestCase
     {
         HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
-        $token= $user->createToken('Personal Access Token')->accessToken;
+        $token= $user->createToken('Personal Access Token', ['user'])->accessToken;
 
 
         $this->withHeader('Authorization', 'Bearer ' . $token)
@@ -37,11 +37,11 @@ class TokenTest extends TestCase
     }
 
     /** @test */
-    public function an_invalid_token_cannot_access_a_protected_resource()
+    public function a_revoked_token_cannot_access_a_protected_resource()
     {
         HelperFunctions::createTestPersonalAccessClient();
         $user = User::factory()->create();
-        $token= $user->createToken('Personal Access Token');
+        $token= $user->createToken('Personal Access Token', ['user']);
 
 
         $tokenRepository = app('Laravel\Passport\TokenRepository');
@@ -52,6 +52,18 @@ class TokenTest extends TestCase
         $this->withHeader('Authorization', 'Bearer ' . $token->accessToken)
             ->json('get', '/home')
             ->assertStatus(401);
+    }
+
+    /** @test */
+    public function a_token_with_invalid_scope_cannot_access_a_protected_resource()
+    {
+        HelperFunctions::createTestPersonalAccessClient();
+        $user = User::factory()->create();
+        $token= $user->createToken('Personal Access Token');
+
+        $this->withHeader('Authorization', 'Bearer ' . $token->accessToken)
+            ->json('get', '/home')
+            ->assertStatus(403);
     }
 
     /** @test */

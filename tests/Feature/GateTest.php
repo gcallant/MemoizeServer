@@ -23,7 +23,7 @@ class GateTest extends TestCase
         HelperFunctions::createTestPersonalAccessClient();
 
         $user = User::factory()->create();
-        $token= $user->createToken('Personal Access Token')->accessToken;
+        $token= $user->createToken('Personal Access Token', ['user'])->accessToken;
         $user->actingAsLoggedIn();
         self::assertTrue($user->isLoggedIn());
 

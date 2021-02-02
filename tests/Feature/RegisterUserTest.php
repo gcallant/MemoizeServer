@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Remote;
+namespace Tests\Feature;
 
 use App\User;
 use Clef\Clef;
@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\Helpers\HelperFunctions;
 use Tests\TestCase;
-use function MongoDB\BSON\toJSON;
 
 class RegisterUserTest extends TestCase
 {

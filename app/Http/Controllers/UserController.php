@@ -49,7 +49,7 @@ class UserController extends Controller
 
         if($user != null)
         {
-            return response()->json("User created", 200);
+            return response()->json("User created", 201);
         }
         else
         {

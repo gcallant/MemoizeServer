@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.13.0.
+ * Generated for Laravel 8.17.2.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -800,6 +800,17 @@
                         return $instance->getLocale();
         }
                     /**
+         * Get the current application locale.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function currentLocale()
+        {
+                        /** @var \Illuminate\Foundation\Application $instance */
+                        return $instance->currentLocale();
+        }
+                    /**
          * Get the current application fallback locale.
          *
          * @return string 
@@ -1187,7 +1198,7 @@
                     /**
          * An alias function name for make().
          *
-         * @param string $abstract
+         * @param string|callable $abstract
          * @param array $parameters
          * @return mixed 
          * @throws \Illuminate\Contracts\Container\BindingResolutionException
@@ -1224,6 +1235,19 @@
         {            //Method inherited from \Illuminate\Container\Container         
                         /** @var \Illuminate\Foundation\Application $instance */
                         return $instance->build($concrete);
+        }
+                    /**
+         * Register a new before resolving callback for all types.
+         *
+         * @param \Closure|string $abstract
+         * @param \Closure|null $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function beforeResolving($abstract, $callback = null)
+        {            //Method inherited from \Illuminate\Container\Container         
+                        /** @var \Illuminate\Foundation\Application $instance */
+                        $instance->beforeResolving($abstract, $callback);
         }
                     /**
          * Register a new resolving callback.
@@ -2712,8 +2736,6 @@
             /**
      * 
      *
-     * @method static \Illuminate\Contracts\Cache\Lock lock(string $name, int $seconds = 0, mixed $owner = null)
-     * @method static \Illuminate\Contracts\Cache\Lock restoreLock(string $name, string $owner)
      * @see \Illuminate\Cache\CacheManager
      * @see \Illuminate\Cache\Repository
      */ 
@@ -3336,6 +3358,33 @@
         {
                         /** @var \Illuminate\Cache\FileStore $instance */
                         return $instance->getPrefix();
+        }
+                    /**
+         * Get a lock instance.
+         *
+         * @param string $name
+         * @param int $seconds
+         * @param string|null $owner
+         * @return \Illuminate\Contracts\Cache\Lock 
+         * @static 
+         */ 
+        public static function lock($name, $seconds = 0, $owner = null)
+        {
+                        /** @var \Illuminate\Cache\FileStore $instance */
+                        return $instance->lock($name, $seconds, $owner);
+        }
+                    /**
+         * Restore a lock instance using the owner identifier.
+         *
+         * @param string $name
+         * @param string $owner
+         * @return \Illuminate\Contracts\Cache\Lock 
+         * @static 
+         */ 
+        public static function restoreLock($name, $owner)
+        {
+                        /** @var \Illuminate\Cache\FileStore $instance */
+                        return $instance->restoreLock($name, $owner);
         }
          
     }
@@ -4455,6 +4504,29 @@
                         $instance->unsetEventDispatcher();
         }
                     /**
+         * Set the transaction manager instance on the connection.
+         *
+         * @param \Illuminate\Database\DatabaseTransactionsManager $manager
+         * @return \Illuminate\Database\SQLiteConnection 
+         * @static 
+         */ 
+        public static function setTransactionManager($manager)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SQLiteConnection $instance */
+                        return $instance->setTransactionManager($manager);
+        }
+                    /**
+         * Unset the transaction manager for this connection.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function unsetTransactionManager()
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SQLiteConnection $instance */
+                        $instance->unsetTransactionManager();
+        }
+                    /**
          * Determine if the connection is in a "dry run".
          *
          * @return bool 
@@ -4662,6 +4734,17 @@
         {            //Method inherited from \Illuminate\Database\Connection         
                         /** @var \Illuminate\Database\SQLiteConnection $instance */
                         return $instance->transactionLevel();
+        }
+                    /**
+         * Execute the callback after a transaction commits.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function afterCommit($callback)
+        {            //Method inherited from \Illuminate\Database\Connection         
+                        /** @var \Illuminate\Database\SQLiteConnection $instance */
+                        $instance->afterCommit($callback);
         }
          
     }
@@ -9926,6 +10009,29 @@
                         return $instance->file($key, $default);
         }
                     /**
+         * Dump the request items and end the script.
+         *
+         * @param array|mixed $keys
+         * @return void 
+         * @static 
+         */ 
+        public static function dd(...$keys)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        $instance->dd(...$keys);
+        }
+                    /**
+         * Dump the items.
+         *
+         * @return \Illuminate\Http\Request 
+         * @static 
+         */ 
+        public static function dump($keys = [])
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->dump($keys);
+        }
+                    /**
          * Register a custom macro.
          *
          * @param string $name
@@ -10261,7 +10367,7 @@
      * @method static \Illuminate\Routing\RouteRegistrar domain(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar middleware(array|string|null $middleware)
      * @method static \Illuminate\Routing\RouteRegistrar name(string $value)
-     * @method static \Illuminate\Routing\RouteRegistrar namespace(string $value)
+     * @method static \Illuminate\Routing\RouteRegistrar namespace(string|null $value)
      * @method static \Illuminate\Routing\RouteRegistrar prefix(string  $prefix)
      * @method static \Illuminate\Routing\RouteRegistrar where(array  $where)
      * @see \Illuminate\Routing\Router
@@ -12229,13 +12335,14 @@
          * Assert that the given file exists.
          *
          * @param string|array $path
+         * @param string|null $content
          * @return \Illuminate\Filesystem\FilesystemAdapter 
          * @static 
          */ 
-        public static function assertExists($path)
+        public static function assertExists($path, $content = null)
         {
                         /** @var \Illuminate\Filesystem\FilesystemAdapter $instance */
-                        return $instance->assertExists($path);
+                        return $instance->assertExists($path, $content);
         }
                     /**
          * Assert that the given file does not exist.
@@ -14410,133 +14517,792 @@
      */ 
         class QrCode {
                     /**
-         * Generates a QrCode.
+         * Generates the QrCode.
          *
-         * @param string $text The text to be converted into a QrCode
-         * @param null|string $filename The filename and path to save the QrCode file
-         * @return string|void Returns a QrCode string depending on the format, or saves to a file.
+         * @param string $text
+         * @param string|null $filename
+         * @return void|\Illuminate\Support\HtmlString|string 
+         * @throws WriterException
+         * @throws InvalidArgumentException
          * @static 
          */ 
         public static function generate($text, $filename = null)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
                         return $instance->generate($text, $filename);
         }
                     /**
-         * Merges an image with the center of the QrCode.
+         * Merges an image over the QrCode.
          *
-         * @param $filepath string The filepath to an image
-         * @param $percentage float The amount that the merged image should be placed over the qrcode.
-         * @param $absolute boolean Whether to use an absolute filepath or not.
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
+         * @param string $filepath
+         * @param float $percentage
+         * @param \SimpleSoftwareIO\QrCode\SimpleSoftwareIO\QrCode\boolean|bool $absolute
+         * @return \Generator 
          * @static 
          */ 
         public static function merge($filepath, $percentage = 0.2, $absolute = false)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
                         return $instance->merge($filepath, $percentage, $absolute);
         }
                     /**
-         * Merges an image string with the center of the QrCode, does not check for correct format.
+         * Merges an image string with the center of the QrCode.
          *
-         * @param $content string The string contents of an image.
-         * @param $percentage float The amount that the merged image should be placed over the qrcode.
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
+         * @param string $content
+         * @param float $percentage
+         * @return \Generator 
          * @static 
          */ 
         public static function mergeString($content, $percentage = 0.2)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
                         return $instance->mergeString($content, $percentage);
         }
                     /**
-         * Switches the format of the outputted QrCode or defaults to SVG.
+         * Sets the size of the QrCode.
          *
-         * @param string $format The desired format.
-         * @throws \InvalidArgumentException
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
-         * @static 
-         */ 
-        public static function format($format)
-        {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
-                        return $instance->format($format);
-        }
-                    /**
-         * Changes the size of the QrCode.
-         *
-         * @param int $pixels The size of the QrCode in pixels
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
+         * @param int $pixels
+         * @return \Generator 
          * @static 
          */ 
         public static function size($pixels)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
                         return $instance->size($pixels);
         }
                     /**
-         * Changes the foreground color of a QrCode.
+         * Sets the format of the QrCode.
+         *
+         * @param string $format
+         * @return \Generator 
+         * @throws InvalidArgumentException
+         * @static 
+         */ 
+        public static function format($format)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->format($format);
+        }
+                    /**
+         * Sets the foreground color of the QrCode.
          *
          * @param int $red
          * @param int $green
          * @param int $blue
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
+         * @param null|int $alpha
+         * @return \Generator 
          * @static 
          */ 
-        public static function color($red, $green, $blue)
+        public static function color($red, $green, $blue, $alpha = null)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
-                        return $instance->color($red, $green, $blue);
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->color($red, $green, $blue, $alpha);
         }
                     /**
-         * Changes the background color of a QrCode.
+         * Sets the background color of the QrCode.
          *
          * @param int $red
          * @param int $green
          * @param int $blue
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
+         * @param null|int $alpha
+         * @return \Generator 
          * @static 
          */ 
-        public static function backgroundColor($red, $green, $blue)
+        public static function backgroundColor($red, $green, $blue, $alpha = null)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
-                        return $instance->backgroundColor($red, $green, $blue);
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->backgroundColor($red, $green, $blue, $alpha);
         }
                     /**
-         * Changes the error correction level of a QrCode.
+         * Sets the eye color for the provided eye index.
          *
-         * @param string $level Desired error correction level.  L = 7% M = 15% Q = 25% H = 30%
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
+         * @param int $eyeNumber
+         * @param int $innerRed
+         * @param int $innerGreen
+         * @param int $innerBlue
+         * @param int $outterRed
+         * @param int $outterGreen
+         * @param int $outterBlue
+         * @return \Generator 
+         * @throws InvalidArgumentException
          * @static 
          */ 
-        public static function errorCorrection($level)
+        public static function eyeColor($eyeNumber, $innerRed, $innerGreen, $innerBlue, $outterRed = 0, $outterGreen = 0, $outterBlue = 0)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
-                        return $instance->errorCorrection($level);
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->eyeColor($eyeNumber, $innerRed, $innerGreen, $innerBlue, $outterRed, $outterGreen, $outterBlue);
         }
                     /**
-         * Creates a margin around the QrCode.
+         * 
          *
-         * @param int $margin The desired margin in pixels around the QrCode
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
          * @static 
          */ 
-        public static function margin($margin)
+        public static function gradient($startRed, $startGreen, $startBlue, $endRed, $endGreen, $endBlue, $type)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
-                        return $instance->margin($margin);
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->gradient($startRed, $startGreen, $startBlue, $endRed, $endGreen, $endBlue, $type);
         }
                     /**
-         * Sets the Encoding mode.
+         * Sets the eye style.
+         *
+         * @param string $style
+         * @return \Generator 
+         * @throws InvalidArgumentException
+         * @static 
+         */ 
+        public static function eye($style)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->eye($style);
+        }
+                    /**
+         * Sets the style of the blocks for the QrCode.
+         *
+         * @param string $style
+         * @param float $size
+         * @return \Generator 
+         * @throws InvalidArgumentException
+         * @static 
+         */ 
+        public static function style($style, $size = 0.5)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->style($style, $size);
+        }
+                    /**
+         * Sets the encoding for the QrCode.
+         * 
+         * Possible values are
+         * ISO-8859-2, ISO-8859-3, ISO-8859-4, ISO-8859-5, ISO-8859-6,
+         * ISO-8859-7, ISO-8859-8, ISO-8859-9, ISO-8859-10, ISO-8859-11,
+         * ISO-8859-12, ISO-8859-13, ISO-8859-14, ISO-8859-15, ISO-8859-16,
+         * SHIFT-JIS, WINDOWS-1250, WINDOWS-1251, WINDOWS-1252, WINDOWS-1256,
+         * UTF-16BE, UTF-8, ASCII, GBK, EUC-KR.
          *
          * @param string $encoding
-         * @return \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator 
+         * @return \Generator 
          * @static 
          */ 
         public static function encoding($encoding)
         {
-                        /** @var \SimpleSoftwareIO\QrCode\BaconQrCodeGenerator $instance */
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
                         return $instance->encoding($encoding);
+        }
+                    /**
+         * Sets the error correction for the QrCode.
+         * 
+         * L: 7% loss.
+         * M: 15% loss.
+         * Q: 25% loss.
+         * H: 30% loss.
+         *
+         * @param string $errorCorrection
+         * @return \Generator 
+         * @static 
+         */ 
+        public static function errorCorrection($errorCorrection)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->errorCorrection($errorCorrection);
+        }
+                    /**
+         * Sets the margin of the QrCode.
+         *
+         * @param int $margin
+         * @return \Generator 
+         * @static 
+         */ 
+        public static function margin($margin)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->margin($margin);
+        }
+                    /**
+         * Fetches the Writer.
+         *
+         * @param \SimpleSoftwareIO\QrCode\ImageRenderer $renderer
+         * @return \SimpleSoftwareIO\QrCode\Writer 
+         * @static 
+         */ 
+        public static function getWriter($renderer)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getWriter($renderer);
+        }
+                    /**
+         * Fetches the Image Renderer.
+         *
+         * @return \SimpleSoftwareIO\QrCode\ImageRenderer 
+         * @static 
+         */ 
+        public static function getRenderer()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getRenderer();
+        }
+                    /**
+         * Returns the Renderer Style.
+         *
+         * @return \SimpleSoftwareIO\QrCode\RendererStyle 
+         * @static 
+         */ 
+        public static function getRendererStyle()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getRendererStyle();
+        }
+                    /**
+         * Fetches the formatter.
+         *
+         * @return \SimpleSoftwareIO\QrCode\ImageBackEndInterface 
+         * @static 
+         */ 
+        public static function getFormatter()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getFormatter();
+        }
+                    /**
+         * Fetches the module.
+         *
+         * @return \SimpleSoftwareIO\QrCode\ModuleInterface 
+         * @static 
+         */ 
+        public static function getModule()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getModule();
+        }
+                    /**
+         * Fetches the eye style.
+         *
+         * @return \SimpleSoftwareIO\QrCode\EyeInterface 
+         * @static 
+         */ 
+        public static function getEye()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getEye();
+        }
+                    /**
+         * Fetches the color fill.
+         *
+         * @return \SimpleSoftwareIO\QrCode\Fill 
+         * @static 
+         */ 
+        public static function getFill()
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->getFill();
+        }
+                    /**
+         * Creates a RGB or Alpha channel color.
+         *
+         * @param int $red
+         * @param int $green
+         * @param int $blue
+         * @param null|int $alpha
+         * @return \SimpleSoftwareIO\QrCode\ColorInterface 
+         * @static 
+         */ 
+        public static function createColor($red, $green, $blue, $alpha = null)
+        {
+                        /** @var \SimpleSoftwareIO\QrCode\Generator $instance */
+                        return $instance->createColor($red, $green, $blue, $alpha);
+        }
+         
+    }
+     
+}
+
+    namespace Tymon\JWTAuth\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class JWTAuth {
+                    /**
+         * Attempt to authenticate the user and return the token.
+         *
+         * @param array $credentials
+         * @return false|string 
+         * @static 
+         */ 
+        public static function attempt($credentials)
+        {
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->attempt($credentials);
+        }
+                    /**
+         * Authenticate a user via a token.
+         *
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject|false 
+         * @static 
+         */ 
+        public static function authenticate()
+        {
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->authenticate();
+        }
+                    /**
+         * Alias for authenticate().
+         *
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject|false 
+         * @static 
+         */ 
+        public static function toUser()
+        {
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->toUser();
+        }
+                    /**
+         * Get the authenticated user.
+         *
+         * @return \Tymon\JWTAuth\Contracts\JWTSubject 
+         * @static 
+         */ 
+        public static function user()
+        {
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->user();
+        }
+                    /**
+         * Generate a token for a given subject.
+         *
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $subject
+         * @return string 
+         * @static 
+         */ 
+        public static function fromSubject($subject)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->fromSubject($subject);
+        }
+                    /**
+         * Alias to generate a token for a given user.
+         *
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $user
+         * @return string 
+         * @static 
+         */ 
+        public static function fromUser($user)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->fromUser($user);
+        }
+                    /**
+         * Refresh an expired token.
+         *
+         * @param bool $forceForever
+         * @param bool $resetClaims
+         * @return string 
+         * @static 
+         */ 
+        public static function refresh($forceForever = false, $resetClaims = false)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->refresh($forceForever, $resetClaims);
+        }
+                    /**
+         * Invalidate a token (add it to the blacklist).
+         *
+         * @param bool $forceForever
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @static 
+         */ 
+        public static function invalidate($forceForever = false)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->invalidate($forceForever);
+        }
+                    /**
+         * Alias to get the payload, and as a result checks that
+         * the token is valid i.e. not expired or blacklisted.
+         *
+         * @throws \Tymon\JWTAuth\Exceptions\JWTException
+         * @return \Tymon\JWTAuth\Payload 
+         * @static 
+         */ 
+        public static function checkOrFail()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->checkOrFail();
+        }
+                    /**
+         * Check that the token is valid.
+         *
+         * @param bool $getPayload
+         * @return \Tymon\JWTAuth\Payload|bool 
+         * @static 
+         */ 
+        public static function check($getPayload = false)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->check($getPayload);
+        }
+                    /**
+         * Get the token.
+         *
+         * @return \Tymon\JWTAuth\Token|null 
+         * @static 
+         */ 
+        public static function getToken()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->getToken();
+        }
+                    /**
+         * Parse the token from the request.
+         *
+         * @throws \Tymon\JWTAuth\Exceptions\JWTException
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @static 
+         */ 
+        public static function parseToken()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->parseToken();
+        }
+                    /**
+         * Get the raw Payload instance.
+         *
+         * @return \Tymon\JWTAuth\Payload 
+         * @static 
+         */ 
+        public static function getPayload()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->getPayload();
+        }
+                    /**
+         * Alias for getPayload().
+         *
+         * @return \Tymon\JWTAuth\Payload 
+         * @static 
+         */ 
+        public static function payload()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->payload();
+        }
+                    /**
+         * Convenience method to get a claim value.
+         *
+         * @param string $claim
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getClaim($claim)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->getClaim($claim);
+        }
+                    /**
+         * Create a Payload instance.
+         *
+         * @param \Tymon\JWTAuth\Contracts\JWTSubject $subject
+         * @return \Tymon\JWTAuth\Payload 
+         * @static 
+         */ 
+        public static function makePayload($subject)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->makePayload($subject);
+        }
+                    /**
+         * Check if the subject model matches the one saved in the token.
+         *
+         * @param string|object $model
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkSubjectModel($model)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->checkSubjectModel($model);
+        }
+                    /**
+         * Set the token.
+         *
+         * @param \Tymon\JWTAuth\Token|string $token
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @static 
+         */ 
+        public static function setToken($token)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->setToken($token);
+        }
+                    /**
+         * Unset the current token.
+         *
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @static 
+         */ 
+        public static function unsetToken()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->unsetToken();
+        }
+                    /**
+         * Set the request instance.
+         *
+         * @param \Illuminate\Http\Request $request
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @static 
+         */ 
+        public static function setRequest($request)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->setRequest($request);
+        }
+                    /**
+         * Set whether the subject should be "locked".
+         *
+         * @param bool $lock
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @static 
+         */ 
+        public static function lockSubject($lock)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->lockSubject($lock);
+        }
+                    /**
+         * Get the Manager instance.
+         *
+         * @return \Tymon\JWTAuth\Manager 
+         * @static 
+         */ 
+        public static function manager()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->manager();
+        }
+                    /**
+         * Get the Parser instance.
+         *
+         * @return \Tymon\JWTAuth\Http\Parser\Parser 
+         * @static 
+         */ 
+        public static function parser()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->parser();
+        }
+                    /**
+         * Get the Payload Factory.
+         *
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function factory()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->factory();
+        }
+                    /**
+         * Get the Blacklist.
+         *
+         * @return \Tymon\JWTAuth\Blacklist 
+         * @static 
+         */ 
+        public static function blacklist()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->blacklist();
+        }
+                    /**
+         * Set the custom claims.
+         *
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @static 
+         */ 
+        public static function customClaims($customClaims)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->customClaims($customClaims);
+        }
+                    /**
+         * Alias to set the custom claims.
+         *
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\JWTAuth 
+         * @static 
+         */ 
+        public static function claims($customClaims)
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->claims($customClaims);
+        }
+                    /**
+         * Get the custom claims.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getCustomClaims()
+        {            //Method inherited from \Tymon\JWTAuth\JWT         
+                        /** @var \Tymon\JWTAuth\JWTAuth $instance */
+                        return $instance->getCustomClaims();
+        }
+         
+    }
+            /**
+     * 
+     *
+     */ 
+        class JWTFactory {
+                    /**
+         * Create the Payload instance.
+         *
+         * @param bool $resetClaims
+         * @return \Tymon\JWTAuth\Payload 
+         * @static 
+         */ 
+        public static function make($resetClaims = false)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->make($resetClaims);
+        }
+                    /**
+         * Empty the claims collection.
+         *
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function emptyClaims()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->emptyClaims();
+        }
+                    /**
+         * Build and get the Claims Collection.
+         *
+         * @return \Tymon\JWTAuth\Claims\Collection 
+         * @static 
+         */ 
+        public static function buildClaimsCollection()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->buildClaimsCollection();
+        }
+                    /**
+         * Get a Payload instance with a claims collection.
+         *
+         * @param \Tymon\JWTAuth\Claims\Collection $claims
+         * @return \Tymon\JWTAuth\Payload 
+         * @static 
+         */ 
+        public static function withClaims($claims)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->withClaims($claims);
+        }
+                    /**
+         * Set the default claims to be added to the Payload.
+         *
+         * @param array $claims
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function setDefaultClaims($claims)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->setDefaultClaims($claims);
+        }
+                    /**
+         * Helper to set the ttl.
+         *
+         * @param int $ttl
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function setTTL($ttl)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->setTTL($ttl);
+        }
+                    /**
+         * Helper to get the ttl.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function getTTL()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->getTTL();
+        }
+                    /**
+         * Get the default claims.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDefaultClaims()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->getDefaultClaims();
+        }
+                    /**
+         * Get the PayloadValidator instance.
+         *
+         * @return \Tymon\JWTAuth\Validators\PayloadValidator 
+         * @static 
+         */ 
+        public static function validator()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->validator();
+        }
+                    /**
+         * Set the custom claims.
+         *
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function customClaims($customClaims)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->customClaims($customClaims);
+        }
+                    /**
+         * Alias to set the custom claims.
+         *
+         * @param array $customClaims
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function claims($customClaims)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->claims($customClaims);
+        }
+                    /**
+         * Get the custom claims.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getCustomClaims()
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->getCustomClaims();
+        }
+                    /**
+         * Set the refresh flow flag.
+         *
+         * @param bool $refreshFlow
+         * @return \Tymon\JWTAuth\Factory 
+         * @static 
+         */ 
+        public static function setRefreshFlow($refreshFlow = true)
+        {
+                        /** @var \Tymon\JWTAuth\Factory $instance */
+                        return $instance->setRefreshFlow($refreshFlow);
         }
          
     }
@@ -15760,7 +16526,7 @@ namespace  {
                 /**
              * Add subselect queries to include the max of the relation's column.
              *
-             * @param string $relation
+             * @param string|array $relation
              * @param string $column
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -15774,7 +16540,7 @@ namespace  {
                 /**
              * Add subselect queries to include the min of the relation's column.
              *
-             * @param string $relation
+             * @param string|array $relation
              * @param string $column
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -15788,7 +16554,7 @@ namespace  {
                 /**
              * Add subselect queries to include the sum of the relation's column.
              *
-             * @param string $relation
+             * @param string|array $relation
              * @param string $column
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -15802,7 +16568,7 @@ namespace  {
                 /**
              * Add subselect queries to include the average of the relation's column.
              *
-             * @param string $relation
+             * @param string|array $relation
              * @param string $column
              * @return \Illuminate\Database\Eloquent\Builder|static 
              * @static 
@@ -15854,7 +16620,7 @@ namespace  {
                 /**
              * Add a subselect expression to the query.
              *
-             * @param \Closure|$this|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|string $query
              * @param string $as
              * @return \Illuminate\Database\Query\Builder 
              * @throws \InvalidArgumentException
@@ -17778,6 +18544,8 @@ namespace  {
             class View extends \Illuminate\Support\Facades\View {}
             class Flare extends \Facade\Ignition\Facades\Flare {}
             class QrCode extends \SimpleSoftwareIO\QrCode\Facades\QrCode {}
+            class JWTAuth extends \Tymon\JWTAuth\Facades\JWTAuth {}
+            class JWTFactory extends \Tymon\JWTAuth\Facades\JWTFactory {}
      
 }
 

@@ -23,7 +23,9 @@
         "laravel/tinker": "^v2.4.2",
         "laravel/ui": "^v2.3.0",
         "propaganistas/laravel-phone": "^4.2",
-        "simplesoftwareio/simple-qrcode": "^2.0"
+        "pusher/pusher-php-server": "^4.1",
+        "simplesoftwareio/simple-qrcode": "~4",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^v2.8.1",

@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
 //
         Passport::tokensCan([
             'create-users' => 'Add a user to the server',
-            'login' => 'Login to service',
+            'user' => 'Login/logout and use the service',
         ]);
 
 
