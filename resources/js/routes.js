@@ -14,6 +14,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import LoggedIn from "./components/LoggedIn";
 import axios from "axios";
+import Home from "./components/Home";
+import Logout from "./components/Logout";
 
 Vue.use(Router);
 
@@ -25,6 +27,15 @@ async function isAuthenticated () {
     return response.status === 200;
 }
 
+/**
+ * Removes revoked or unauthorized tokens from localstorage
+ */
+function removeTokenIfExisting() {
+    if (localStorage.getItem('memoizeToken') != null) {
+        localStorage.removeItem('memoizeToken')
+    }
+}
+
 async function beforeEnter(to, from, next){
     try{
         let authenticated = await isAuthenticated();
@@ -32,10 +43,12 @@ async function beforeEnter(to, from, next){
             next()
         }
         else {
-            next('/loginVue')
+            next('/login')
+            removeTokenIfExisting()
         }
     } catch (e) {
-        next('/loginVue')
+        next('/login')
+        removeTokenIfExisting()
     }
 }
 
@@ -45,7 +58,11 @@ export default new Router({
     linkActiveClass: 'font-bold',
 
     routes: [
-
+        {
+            path: '/',
+            component: Home,
+            beforeEnter
+        },
         {
             path: '*',
             component: NotFound,
@@ -109,9 +126,19 @@ export default new Router({
             beforeEnter
         },
         {
-            path: '/loginVue',
+            path: '/login',
             component: Login,
             meta: {requiresAuth: false}
+        },
+        {
+            path: '/logout',
+            component: Logout,
+            beforeEnter
+        },
+        {
+            path: '/home',
+            component: Home,
+            beforeEnter
         }
     ]
 });

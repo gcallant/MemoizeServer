@@ -52,7 +52,7 @@ class RegisterUserTest extends TestCase
 
         $this->withHeader('Authorization', 'Bearer ' . $token)
             ->json('post', '/api/user', $userAttributes)
-            ->assertStatus(200);
+            ->assertStatus(201);
 
     }
 }

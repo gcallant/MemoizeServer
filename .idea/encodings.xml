@@ -26,6 +26,7 @@
     <file url="file://$PROJECT_DIR$/app/Policies/UserPolicy.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Providers/EventServiceProvider.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/TelescopeServiceProvider.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/User.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/helpers.php" charset="UTF-8" />
@@ -34,6 +35,7 @@
     <file url="file://$PROJECT_DIR$/composer.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/app.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/auth.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/config/broadcasting.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/database.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/jwt.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/session.php" charset="UTF-8" />
@@ -50,6 +52,7 @@
     <file url="file://$PROJECT_DIR$/resources/js/components/ColorRange.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Colors.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Dropdown.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Home.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Illustrations.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/LoadersAndAnimations.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/LoggedIn.vue" charset="UTF-8" />
@@ -57,6 +60,7 @@
     <file url="file://$PROJECT_DIR$/resources/js/components/LoginModal.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Logo.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/LogoSymbol.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/Logout.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Mascot.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/NewProjectModal.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/NotFound.vue" charset="UTF-8" />
@@ -88,6 +92,7 @@
     <file url="file://$PROJECT_DIR$/resources/views/pusher.blade.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/routes/api.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/routes/web.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/storage/logs/laravel.log" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tailwind.config.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/AuthenticationTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/GateTest.php" charset="UTF-8" />
@@ -96,11 +101,14 @@
     <file url="file://$PROJECT_DIR$/tests/Feature/RemoteLoginTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Feature/TokenTest.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tests/Helpers/HelperFunctions.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Action.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Clef.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Client.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/clef/clef-php/lib/Signing.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Auth/RequestGuard.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/laravel/passport/src/Guards/TokenGuard.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/league/oauth2-server/src/AuthorizationValidators/BearerTokenValidator.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/vendor/phpseclib/phpseclib/phpseclib/Crypt/EC/PublicKey.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/vendor/phpseclib/phpseclib/phpseclib/openssl.cnf" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/webpack.mix.js" charset="UTF-8" />
     <file url="PROJECT" charset="windows-1252" />

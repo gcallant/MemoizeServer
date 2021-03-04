@@ -22394,6 +22394,10 @@ button {
   display: none !important;
 }
 
+.container {
+  width: 968px;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;

@@ -16,11 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('isUser', function() {
+    return auth()->user();
+})->middleware('auth:api');
 Route::post('user', [UserController::class, 'store'])->middleware('client:create-users');
 Route::post('login', [LoginController::class, 'login']);
+Route::post('login/confirm', [LoginController::class, 'confirmLogin']);
 Route::post('logout', [LoginController::class, 'logout'])->middleware(['auth:api', 'scope:user']);
 Route::get('isAuthenticated', function() {
 })->middleware('auth:api');
+
+Route::get('randomBytes', [LoginController::class, 'generateRandomID']);
 //Route::get('home', [HomeController::class, 'index'])->middleware(['auth:api', 'scope:user']);
 
 

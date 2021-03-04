@@ -22,8 +22,9 @@
         "laravel/telescope": "^4.0.1",
         "laravel/tinker": "^v2.4.2",
         "laravel/ui": "^v2.3.0",
+        "phpseclib/phpseclib": "~3.0",
         "propaganistas/laravel-phone": "^4.2",
-        "pusher/pusher-php-server": "^4.1",
+        "pusher/pusher-php-server": "~4.0",
         "simplesoftwareio/simple-qrcode": "~4",
         "tymon/jwt-auth": "^1.0"
     },

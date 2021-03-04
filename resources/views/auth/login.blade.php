@@ -24,16 +24,16 @@
 
                         <div class="col-lg-6">
                             <div class="p-5 d-none" id="loginApprovalQueue">
-                                {{--                                <div class="w-50 my-5 mx-auto mobilePhone">--}}
-                                {{--                                    <img src="images/approval-mobile.svg" class="w-100">--}}
-                                {{--                                </div>--}}
+                                                                <div class="w-50 my-5 mx-auto mobilePhone">
+                                                                    <img src="images/approval-mobile.svg" class="w-100">
+                                                                </div>
                                 <h5 class="text-center text-primary">Scan the barcode using the Memoize app
                                     on your phone</h5>
-                                <small class="d-block text-secondary text-center">
+                                <h5 class="d-block text-center text-secondary">
                                     To log in, open the Memoize app on one of your registered devices and
                                     scan the barcode
-                                </small>
-                                <div class="text-center mt-3">
+                                </h5>
+                                <div class="content-center mt-3">
                                     <div id="{{$random_id}}" class="qrcode">
                                         {!! QrCode::size(300)->generate($random_id); !!}
                                     </div>
@@ -44,7 +44,7 @@
 
 
                         <div class="p-5" id="loginFormWrapper">
-                            <form method="POST" action="" class="user" id="authenticationForm">
+                            <form method="POST" @submit="this.formSubmitted" action="" class="user" id="authenticationForm">
                                 @csrf
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Login
@@ -62,6 +62,19 @@
 <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 {{--<script src="{{ asset('js/sb-admin-2.min.js') }}"></script>--}}
 <script type="text/javascript">
+    export default {
+        data() {
+            return {
+
+            };
+        },
+
+        methods: {
+            formSubmitted() {
+
+            }
+        }
+    };
     const showApprovalAndListenForApproval = callback => {
         $('#loginFormWrapper').addClass('d-none');
         $('#loginApprovalQueue').removeClass('d-none');
@@ -87,8 +100,8 @@
 
     async function getTokenAndRedirectToHome() {
         // alert(document.getElementsByClassName('qrcode').toString());
-        // await axios.post('login/confirm', document.getElementsByClassName('qrcode').toString())
-        //     .then(response => localStorage.setItem('memoizeToken', response.data.access_token))
+        await axios.post('login/confirm', document.getElementsByClassName('qrcode').toString())
+            .then(response => localStorage.setItem('memoizeToken', response.data.access_token))
         try {
             location = (await axios.get('/home'));
         } catch (error) {

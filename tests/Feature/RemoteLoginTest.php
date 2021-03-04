@@ -12,9 +12,9 @@ class RemoteLoginTest extends TestCase
     public function an_authorized_user_can_login()
     {
         $this->withoutExceptionHandling();
-        $response = $this->get('/login');
+        $response = $this->get('/api/login');
 
-        $response->assertStatus(200)->assertSee($_SESSION['state']);
+        $response->assertStatus(200);
 
         //Listen to login channel->Wait for login broadcast
 

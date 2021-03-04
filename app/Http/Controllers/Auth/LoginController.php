@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Events\LoginAuthorizationRequested;
 use App\Events\LoginAuthorized;
 use App\Events\MyEvent;
 use App\Http\Controllers\Controller;
@@ -17,8 +16,8 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use JsonException;
 use Psr\SimpleCache\InvalidArgumentException;
 use Response;
@@ -53,7 +52,15 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-//        $this->middleware('guest')->except('logout');
+        if(app()->runningUnitTests())
+        {
+            return;
+        }
+        Clef::configure(array(
+            "id" => 1,
+            "secret" => env('CLEF_SECRET'),
+            "keypair" => env('APP_KEYPAIR'),
+            "passphrase" => ""));
     }
 
     /**
@@ -75,16 +82,26 @@ class LoginController extends Controller
         $payload_bundle = Clef::decode_payload($request["payload"]);
         try
         {
-            $signed_payload = json_decode($payload_bundle["payload_json"], true, 512, JSON_THROW_ON_ERROR);
+            if(app()->runningUnitTests())
+            {
+                $signed_payload = json_decode($payload_bundle["payload_json"],
+                    true, 512, JSON_THROW_ON_ERROR);
+            }
+            else
+            {
+                $signed_payload = json_decode(base64_decode($payload_bundle["payload_json"]),
+                    true, 512, JSON_THROW_ON_ERROR);
+            }
         }
         catch(JsonException $e)
         {
             return response()->json(['error' => 'Error decoding payload'], 401);
         }
 
-        $user = User::find($signed_payload["clef_id"]);
-        $randomID = $signed_payload['randomID'];
-        $ttl = 60; //Seconds to keep in cache
+        $userID = (int) $signed_payload["user_id"];
+        $user = User::find($userID);
+        $randomID = $signed_payload['random_id'];
+        $ttl = 5; //Seconds to keep in cache
 
         if($user === null)
         {
@@ -97,65 +114,36 @@ class LoginController extends Controller
         {
             if(Clef::verify_login_payload($payload_bundle, $public_key))
             {
-                cache()->set($randomID, $user->id, $ttl);
-                return $request->wantsJson()
-                    ? new JsonResponse(['status' => true], 200)
-                    : redirect('/home');
+                $token = $this->createResponsePayload($user);
+                Cache::put($randomID, $token, $ttl);
+                LoginAuthorized::dispatch();
+
+                return new JsonResponse($token, 200);
             }
         }
-        catch(VerificationError $error)
+        catch(Exception $error)
         {
             return response()->json(['error' => 'error validating user data'], 401);
         }
-        catch(BadSignatureError | InvalidArgumentException | Exception $error)
-        {
-            return response()->json($error->getMessage(), 401);
-        }
 
-
-        return $this->sendFailedLoginResponse($request);
+        return response()->json(['Unauthorized' => 'Invalid Login'], 401);
     }
 
-    private function verifyPayloadData($payload)
+    public function generateRandomID()
     {
+        $strongResult = false;
+        $data = openssl_random_pseudo_bytes(64, $strongResult);
 
-    }
-
-    private function generateRandomID()
-    {
-        if(!session_id())
-        {
-            session_start();
-        }
-
-        if(isset($_SESSION['state']))
-        {
-            return $_SESSION['state'];
-        }
-
-        $data = openssl_random_pseudo_bytes(64);
-
-        if($data === "false")
+        if($data === "false" || $strongResult === false)
         {
             return response()->json("Server error, please try again.", 500);
         }
 
-        $session_state = strtr(base64_encode($data), '+/=', '-_,');
-        $_SESSION['state'] = $session_state;
-
-        return $session_state;
+        return strtr(base64_encode($data), '+/=', '-_,');
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request) : JsonResponse
     {
-        if($this->guard()->id() === 0)
-        {
-            $this->guard()->logout();
-            $request->session()->invalidate();
-
-            $request->session()->regenerateToken();
-        }
-
         if($user = Auth::user())
         {
             $token = $user->token();
@@ -169,103 +157,37 @@ class LoginController extends Controller
 
             $user->logged_out = now();
 
-            return $request->wantsJson()
-                ? new JsonResponse("You've been logged out", 204)
-                : redirect('login');
-        }
-    }
-
-    public function clientAuthorized(Request $request)
-    {
-        $request->validate(['hash' => 'required|string']);
-
-        $sentHash = $request->get('hash');
-        [$hashKey] = explode('.', $sentHash);
-        $storedHash = cache()->get($hashKey . '_login_hash');
-
-        if(!Hash::check($sentHash, $storedHash))
-        {
-            abort(422);
+            return new JsonResponse("You've been logged out", 204);
         }
 
-        event(new LoginAuthorized($sentHash));
-
-        return ['status' => true];
+        return new JsonResponse('Unauthorized', 401);
     }
 
-//    public function authorizeLogin(Request $request)
-//    {
-//        $request->validate([
-//            'hash'            => 'required|string',
-//            'password'        => 'required|string',
-//            $this->username() => 'required|string',
-//        ]);
-//
-//        $sentHash = $request->get('hash');
-//        [$hashKey] = explode('.', $sentHash);
-//        $storedHash = cache()->get($hashKey . '_login_hash');
-//
-//        if(!Hash::check($sentHash, $storedHash) || !$this->attemptLogin($request))
-//        {
-//            abort(422);
-//        }
-//
-//        return ['status' => true];
-//    }
-
-    public function confirmLogin(Request $request)
+    public function confirmLogin(Request $request) : JsonResponse
     {
         try
         {
-            $user = User::find(1);
-            //$user = cache()->get($request->randomID);
+            $token = Cache::get($request->code);
+
+            if(!$token)
+            {
+                return new JsonResponse('Incorrect login data', 401);
+            }
+
         }
-        catch(Exception $e)
+        catch(\InvalidArgumentException | Exception $e)
         {
             return new JsonResponse('Incorrect login data', 401);
         }
-        $responsePayload = $this->createResonsePayload($user);
 
-        return new JsonResponse($responsePayload, 200);
+        return new JsonResponse($token, 200);
     }
-
-//    public function confirLogin(Request $request)
-//    {
-//        $this->validateLogin($request);
-//
-//        if($this->hasTooManyLoginAttempts($request))
-//        {
-//            $this->fireLockoutEvent($request);
-//
-//            return $this->sendLockoutResponse($request);
-//        }
-//
-//        if($this->guard()->validate($this->credentials($request)))
-//        {
-//            $username = $request->get($this->username());
-//            $hashKey = sha1($username . '_' . Str::random(32));
-//            $unhashedLoginHash = $hashKey . '.' . Str::random(32);
-//
-//            // Store the hash for 5 minutes...
-//            $mins = now()->addMinutes(5);
-//            $key = "{$hashKey}_login_hash";
-//            cache()->put($key, Hash::make($unhashedLoginHash), $mins);
-//
-//            event(new LoginAuthorizationRequested($unhashedLoginHash, $username));
-//
-//            return ['status' => true];
-//        }
-//
-//        $this->incrementLoginAttempts($request);
-//
-//        return $this->sendFailedLoginResponse($request);
-//    }
 
     /**
      * @param $user
      * @return array
      */
-    private function createResonsePayload($user) : array
+    private function createResponsePayload($user) : array
     {
         $tokenResult = $user->createToken('Personal Access Token', ['user']);
         $token = $tokenResult->token;

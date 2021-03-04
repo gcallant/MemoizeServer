@@ -20,15 +20,15 @@ use Illuminate\Support\Facades\Route;
 //Auth::routes();
 //
 //Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/login', [LoginController::class, 'show'])->name('login');
+//Route::get('/login', [LoginController::class, 'show'])->name('login');
 
 Route::get('{any}', function(){
     return view('layouts.vue');
 })->where('any', '.*');
 
 
-Route::post('login/confirm', [LoginController::class, 'confirmLogin']);
-Route::post('logout', [LoginController::class, 'logout'])->middleware(['auth:api', 'scope:user']);
+//Route::post('login/confirm', [LoginController::class, 'confirmLogin']);
+//Route::post('logout', [LoginController::class, 'logout'])->middleware(['auth:api', 'scope:user']);
 //Route::get('home', [HomeController::class, 'index'])->middleware(['auth:api', 'scope:user']);
 
 Route::get('register/verify/{confirmation_code}', [
@@ -36,4 +36,4 @@ Route::get('register/verify/{confirmation_code}', [
     'uses' => 'Auth\RegisterController@confirm'
 ]);
 
-Route::get('/startLogin', 'Auth\LoginController@startLogin');
+//Route::get('/startLogin', 'Auth\LoginController@startLogin');
