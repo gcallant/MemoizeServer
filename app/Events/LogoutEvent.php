@@ -2,31 +2,30 @@
 
 namespace App\Events;
 
+use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Queue\SerializesModels;
-use const Grpc\STATUS_OK;
 
-class LoginAuthorized  implements ShouldBroadcast
+class LogoutEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $response;
-    public $channel;
+    public $user;
 
     /**
      * Create a new event instance.
      *
-     * @param JsonResponse $response
+     * @param User $user
      */
-    public function __construct(String $channel)
+    public function __construct(User $user)
     {
-        $this->response = 200;
-        $this->channel = $channel;
+        $this->user = $user;
     }
 
     /**
@@ -36,11 +35,11 @@ class LoginAuthorized  implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel($this->channel);
+        return new PrivateChannel('App.User.' . $this->user->id);
     }
 
     public function broadcastAs()
     {
-        return 'approval-granted';
+        return 'logout-now';
     }
 }

@@ -12,6 +12,7 @@
     <file url="file://$PROJECT_DIR$/Database/Factories/UserFactory.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Database/migrations/2014_10_12_000000_create_users_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Events/LoginAuthorized.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Events/LogoutEvent.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Events/MyEvent.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Guards/CustomRequestGuard.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" charset="UTF-8" />
@@ -22,6 +23,7 @@
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/UserController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Kernel.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Middleware/Cors.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Listeners/LogoutEventListener.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Listeners/SendLoginAuthorization.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Policies/UserPolicy.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php" charset="UTF-8" />

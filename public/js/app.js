@@ -7686,6 +7686,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   created: function created() {
     var _this = this;
@@ -7710,9 +7715,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.hidden = "flex";
+                _this2.hidden = "";
                 _this2.buttonClass = "d-none";
-                _context.t0 = Echo.channel('auth-request');
+                _context.t0 = Echo.channel(_this2.qrcodeValue);
                 _context.next = 5;
                 return _this2.getTokenAndRedirectToHome;
 
@@ -8508,8 +8513,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   broadcaster: 'pusher',
   key: "3ded27e9d8717175f0ac",
   cluster: "us3",
-  forceTLS: false
-});
+  forceTLS: "FALSE"
+}); // Echo.private('logout-now').listen('')
 
 /***/ }),
 
@@ -17234,22 +17239,22 @@ var render = function() {
       [_vm._v("Login")]
     ),
     _vm._v(" "),
-    _c(
-      "div",
-      { class: _vm.hidden, attrs: { id: "hidden" } },
-      [
-        _c("h5", [_vm._v("Scan QRcode with your phone to login")]),
+    _c("div", { class: _vm.hidden, attrs: { id: "hidden" } }, [
+      _c("div", { staticClass: "my-5 mx-auto flex" }, [
+        _c(
+          "div",
+          { staticClass: "card" },
+          [
+            _c("qrcode", {
+              attrs: { value: this.qrcodeValue, options: { width: 300 } }
+            })
+          ],
+          1
+        ),
         _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c("img", { attrs: { src: "/images/spinner.svg", alt: "" } }),
-        _vm._v(" "),
-        _c("qrcode", {
-          attrs: { value: this.qrcodeValue, options: { width: 300 } }
-        })
-      ],
-      1
-    ),
+        _vm._m(0)
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "button",
@@ -17267,13 +17272,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-50 my-5 mx-auto mobilePhone" }, [
+    return _c("div", { staticClass: "card justify-between" }, [
       _c("picture", [
         _c("img", {
           staticClass: "w-40",
-          attrs: { src: "images/approval-mobile.svg" }
+          attrs: { src: "images/approval-mobile.svg", alt: "mobile" }
         })
-      ])
+      ]),
+      _vm._v(" "),
+      _c("h5", [_vm._v("Scan QRcode with your phone to login")]),
+      _vm._v(" "),
+      _c("img", { attrs: { src: "/images/spinner.svg", alt: "" } })
     ])
   }
 ]

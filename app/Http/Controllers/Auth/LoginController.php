@@ -116,7 +116,7 @@ class LoginController extends Controller
             {
                 $token = $this->createResponsePayload($user);
                 Cache::put($randomID, $token, $ttl);
-                LoginAuthorized::dispatch();
+                LoginAuthorized::dispatch($randomID);
 
                 return new JsonResponse($token, 200);
             }
