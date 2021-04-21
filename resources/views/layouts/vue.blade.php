@@ -8,11 +8,11 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
 </head>
-<body class="theme-dark bg-page font-sans mt-4">
+<body class="theme-light bg-page font-sans mt-4">
 <div id="app">
     <header class="py-6 px-8 mb-8" style="background: url('{{asset('images/splash.svg')}}') 0px 2px no-repeat;">
         <h1>
-            <img alt="logo" src="{{asset('images/logo.svg')}}"/>
+            <img alt="logo" src="{{asset('images/logo.png')}}"/>
         </h1>
     </header>
 

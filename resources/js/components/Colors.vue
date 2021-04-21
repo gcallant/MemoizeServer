@@ -10,21 +10,21 @@
             <div class="flex">
                 <div class="text-center mr-8">
                     <div
-                        class="rounded-full bg-blue shadow w-18 h-18 mb-3"
+                        class="rounded-full bg-blue shadow w-24 h-24 mb-3"
                     ></div>
                     <p class="text-xs">#328AF1</p>
                 </div>
 
                 <div class="text-center mr-8">
                     <div
-                        class="rounded-full bg-white shadow w-18 h-18 mb-3"
+                        class="rounded-full bg-white shadow w-24 h-24 mb-3"
                     ></div>
                     <p class="text-xs">#FFF</p>
                 </div>
 
                 <div class="text-center">
                     <div
-                        class="rounded-full bg-black shadow w-18 h-18 mb-3"
+                        class="rounded-full bg-black shadow w-24 h-24 mb-3"
                     ></div>
                     <p class="text-xs">#222222</p>
                 </div>
@@ -73,7 +73,7 @@
             <div class="flex">
                 <div class="text-center mr-8">
                     <div
-                        class="rounded-full shadow w-18 h-18 mb-3 bg-grey-dark"
+                        class="rounded-full shadow w-24 h-24 mb-3 bg-grey"
                     ></div>
                     <p class="text-xs">#78909C</p>
                 </div>

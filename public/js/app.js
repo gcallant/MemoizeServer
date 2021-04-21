@@ -7703,7 +7703,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       qrcodeValue: 'Error: No Random Data Available',
       hidden: 'd-none',
-      buttonClass: 'btn btn-primary btn-user btn-block'
+      buttonClass: 'btn btn-primary btn-user btn-block button'
     };
   },
   methods: {
@@ -16941,7 +16941,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "mr-8 flex flex-col items-center" }, [
     _c("div", {
-      staticClass: "rounded-full shadow w-18 h-18 mb-3",
+      staticClass: "rounded-full shadow w-10 h-10 mb-3",
       style:
         "background-image: linear-gradient(to left, " +
         _vm.from +
@@ -16953,7 +16953,7 @@ var render = function() {
     _c("div", { staticClass: "flex justify-center mb-4" }, [
       _c("div", { staticClass: "flex flex-col items-center mr-4" }, [
         _c("div", {
-          staticClass: "rounded-full w-5 h-5 shadow mb-3",
+          staticClass: "rounded-full w-10 h-10 shadow mb-3",
           style: "background: " + _vm.from
         }),
         _vm._v(" "),
@@ -16965,7 +16965,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "flex flex-col items-center" }, [
         _c("div", {
-          staticClass: "rounded-full w-5 h-5 shadow mb-3",
+          staticClass: "rounded-full w-10 h-10 shadow mb-3",
           style: "background: " + _vm.to
         }),
         _vm._v(" "),
@@ -17065,7 +17065,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "flex" }, [
         _c("div", { staticClass: "text-center mr-8" }, [
           _c("div", {
-            staticClass: "rounded-full bg-blue shadow w-18 h-18 mb-3"
+            staticClass: "rounded-full bg-blue shadow w-24 h-24 mb-3"
           }),
           _vm._v(" "),
           _c("p", { staticClass: "text-xs" }, [_vm._v("#328AF1")])
@@ -17073,7 +17073,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("div", { staticClass: "text-center mr-8" }, [
           _c("div", {
-            staticClass: "rounded-full bg-white shadow w-18 h-18 mb-3"
+            staticClass: "rounded-full bg-white shadow w-24 h-24 mb-3"
           }),
           _vm._v(" "),
           _c("p", { staticClass: "text-xs" }, [_vm._v("#FFF")])
@@ -17081,7 +17081,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("div", { staticClass: "text-center" }, [
           _c("div", {
-            staticClass: "rounded-full bg-black shadow w-18 h-18 mb-3"
+            staticClass: "rounded-full bg-black shadow w-24 h-24 mb-3"
           }),
           _vm._v(" "),
           _c("p", { staticClass: "text-xs" }, [_vm._v("#222222")])
@@ -17099,7 +17099,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "flex" }, [
         _c("div", { staticClass: "text-center mr-8" }, [
           _c("div", {
-            staticClass: "rounded-full shadow w-18 h-18 mb-3 bg-grey-dark"
+            staticClass: "rounded-full shadow w-24 h-24 mb-3 bg-grey"
           }),
           _vm._v(" "),
           _c("p", { staticClass: "text-xs" }, [_vm._v("#78909C")])

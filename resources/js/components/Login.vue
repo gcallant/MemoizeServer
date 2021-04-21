@@ -39,7 +39,7 @@ export default {
         return {
             qrcodeValue: 'Error: No Random Data Available',
             hidden: 'd-none',
-            buttonClass: 'btn btn-primary btn-user btn-block',
+            buttonClass: 'btn btn-primary btn-user btn-block button',
         };
     },
 
