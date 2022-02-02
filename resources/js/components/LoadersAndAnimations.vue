@@ -9,8 +9,7 @@
             <a href="http://airbnb.io/lottie/#/web" class="text-blue font-bold"
             >Lottie</a
             >
-            library to render its animation. You may download the necessary
-            assets below.
+            library to render its animation.
         </p>
 
         <div
@@ -18,12 +17,6 @@
         >
             <div ref="lottie" class="w-64" style="height: 457px"></div>
         </div>
-
-        <a
-            href="/animations/laracasts-spinner.zip"
-            class="border border-grey-light px-10 py-2 rounded-full text-black font-bold text-xs"
-        >spinner.zip
-        </a>
     </div>
 </template>
 

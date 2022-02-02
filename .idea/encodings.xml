@@ -50,10 +50,10 @@
     <file url="file://$PROJECT_DIR$/resources/js/bootstrap.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/clef.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Achievements.vue" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/resources/js/components/BirdboardForm.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/ColorRange.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Colors.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Dropdown.vue" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resources/js/components/FormComponent.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Home.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/Illustrations.vue" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/components/LoadersAndAnimations.vue" charset="UTF-8" />

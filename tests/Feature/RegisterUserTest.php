@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class RegisterUserTest extends TestCase
 {
-   use RefreshDatabase;
+   //use RefreshDatabase;
 
     /** @test */
     public function a_user_can_be_uploaded_to_server_from_remote_client()
@@ -54,5 +54,16 @@ class RegisterUserTest extends TestCase
             ->json('post', '/api/user', $userAttributes)
             ->assertStatus(201);
 
+    }
+
+    /** @test */
+    public function create_fake_users()
+    {
+        for($i = 0; $i < 20; $i++)
+        {
+            $user = User::factory()->make();
+            print("{$user},\n");
+        }
+        $this->assertTrue(true);
     }
 }

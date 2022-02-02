@@ -43,5 +43,3 @@ window.Echo = new Echo({
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
     forceTLS: process.env.MIX_PUSHER_TLS,
 });
-
-// Echo.private('logout-now').listen('')

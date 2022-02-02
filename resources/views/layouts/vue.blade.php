@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Memoize Assets</title>
+    <title>Memoize Prototype</title>
 
     <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
 </head>
@@ -44,9 +44,6 @@
                 <section class="mb-10">
                     <h5 class="uppercase font-bold mb-4 text-base">Doodles</h5>
                     <ul class="list-reset">
-                        <li class="text-sm pb-4 leading-loose">
-                            <router-link class="text-black" to="/mascot">Mascot</router-link>
-                        </li>
                         <li class="text-sm pb-4 leading-loose">
                             <router-link class="text-black" to="/illustrations">Illustrations</router-link>
                         </li>

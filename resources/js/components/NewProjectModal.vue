@@ -1,6 +1,6 @@
 <template>
     <modal name="new-project-modal" classes="p-10 bg-card rounded-lg" height="auto">
-        <h1 class="font-normal mb-16 text-center text-2xl">Let's start something new</h1>
+        <h1 class="font-normal mb-16 text-center text-2xl">Start a new project!</h1>
         <form @submit.prevent="submit">
             <div class="flex">
                 <div class="flex-1 mr-4">
@@ -61,13 +61,13 @@
 </template>
 
 <script>
-    import BirdboardForm from './BirdboardForm';
+    import FormComponent from './FormComponent';
     export default {
         name: "NewProjectModal",
 
         data() {
             return {
-                form: new BirdboardForm({
+                form: new FormComponent({
                     title: '',
 
                     description: '',

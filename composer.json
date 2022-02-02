@@ -1,11 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "gcallant/memoize",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "description": "Grant's thesis project.",
     "license": "MIT",
     "require": {
         "php": "^7.3",
@@ -54,9 +50,6 @@
         "classmap": [
           "Database/seeds",
           "Database/Factories"
-        ],
-        "files": [
-            "app/helpers.php"
         ]
     },
     "autoload-dev": {

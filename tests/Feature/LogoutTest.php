@@ -101,8 +101,8 @@ class LogoutTest extends TestCase
         ];
         $this->assertDatabaseMissing('oauth_access_tokens', $attributes);
 
-//        $this->withHeader('Authorization', 'Bearer ' . $tokenResult->accessToken)
-//            ->json('get', '/api/test')
-//            ->assertStatus(401);
+        $this->withHeader('Authorization', 'Bearer ' . $tokenResult->accessToken)
+            ->json('get', '/api/test')
+            ->assertStatus(401);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+    private $index = -1;
     /**
      * The name of the factory's corresponding model.
      *
@@ -23,15 +24,16 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'phone' => self::generateFakeAcceptablePhoneNumber(),
-            'email_verified_at' => now(),
-            'confirmed' => 1,
+            'name' => $this->faker->firstName,
+            'email' => $this->faker->unique()->email,
+            'phone' => $this->generateFakeAcceptablePhoneNumber(),
+            'passcode' =>$this->faker->numberBetween(0, 999999999),
+//            'email_verified_at' => now(),
+//            'confirmed' => 1,
         ];
     }
 
-    private static function generateFakeAcceptablePhoneNumber() : string
+    public function generateFakeAcceptablePhoneNumber() : string
     {
         $numbers = [
             '501-634-7715',
@@ -50,10 +52,15 @@ class UserFactory extends Factory
             '307-635-7717',
             '307-635-7718',
             '307-635-7719',
+            '509-435-3524',
+            '509-869-8721',
+            '509-869-8722',
+            '509-435-3525',
+            '307-636-9794',
         ];
 
-        $index = random_int(0, 15);
+        $this->index++;
 
-        return $numbers[$index];
+        return $numbers[$this->index];
     }
 }

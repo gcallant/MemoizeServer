@@ -11,6 +11,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Queue\SerializesModels;
 use const Grpc\STATUS_OK;
 
+/**
+ * This class instructs Laravel to create a a websocket for Laravel Echo to listen on.
+ * When logic is successful, an 'approval-granted' notification is broadcast to the constructed channel.
+ */
 class LoginAuthorized  implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -21,7 +25,7 @@ class LoginAuthorized  implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param JsonResponse $response
+     * @param String $channel The channel name is the randomly generated nonce ID.
      */
     public function __construct(String $channel)
     {
@@ -39,6 +43,10 @@ class LoginAuthorized  implements ShouldBroadcast
         return new Channel($this->channel);
     }
 
+    /**
+     * The event the broadcast publishes.
+     * @return string
+     */
     public function broadcastAs()
     {
         return 'approval-granted';

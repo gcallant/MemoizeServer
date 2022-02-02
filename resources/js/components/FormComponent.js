@@ -1,4 +1,7 @@
-class BirdboardForm {
+/**
+ * A generic form component that can be pulled into any component.
+ */
+class FormComponent {
     constructor(data) {
         this.originalData = JSON.parse(JSON.stringify(data));
 
@@ -55,4 +58,4 @@ class BirdboardForm {
     }
 }
 
-export default BirdboardForm;
+export default FormComponent;

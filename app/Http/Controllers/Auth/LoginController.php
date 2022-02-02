@@ -43,7 +43,6 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
-    private $random_id = '';
 
     /**
      * Create a new controller instance.
@@ -64,7 +63,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Endpoint called when login page is shown. A random ID is generated, and the view is returned.
      *
      * @param \App\User $userID
      * @return Response
@@ -77,6 +76,12 @@ class LoginController extends Controller
         return View('auth.login', compact('random_id'));
     }
 
+    /**
+     * This endpoint takes a login request from the iOS device, decodes and verifies the payload.
+     * If verification is successful, it places a JWT into the cache with a key of the randomly generated ID.
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function login(Request $request)
     {
         $payload_bundle = Clef::decode_payload($request["payload"]);
@@ -95,17 +100,17 @@ class LoginController extends Controller
         }
         catch(JsonException $e)
         {
-            return response()->json(['error' => 'Error decoding payload'], 401);
+            return response()->json(['error' => 'Error decoding payload'], 400);
         }
 
         $userID = (int) $signed_payload["user_id"];
         $user = User::find($userID);
         $randomID = $signed_payload['random_id'];
-        $ttl = 5; //Seconds to keep in cache
+        $ttl = 2; //Seconds to keep in cache
 
         if($user === null)
         {
-            return response()->json(['error' => "No user found"], 401);
+            return response()->json(['Unauthorized' => 'Invalid Login'], 401);
         }
 
         $public_key = $user->public_key;
@@ -123,25 +128,37 @@ class LoginController extends Controller
         }
         catch(Exception $error)
         {
-            return response()->json(['error' => 'error validating user data'], 401);
+            return response()->json(['Unauthorized' => 'Invalid Login'], 401);
         }
 
         return response()->json(['Unauthorized' => 'Invalid Login'], 401);
     }
 
+    /**
+     * Uses PHP's random_bytes method to create a cryptographically secure pseudo-random 64 byte nonce.
+     * @return JsonResponse|string
+     */
     public function generateRandomID()
     {
-        $strongResult = false;
-        $data = openssl_random_pseudo_bytes(64, $strongResult);
-
-        if($data === "false" || $strongResult === false)
+        try
+        {
+            $data = random_bytes(64);
+        }
+        catch(Exception $e)
         {
             return response()->json("Server error, please try again.", 500);
         }
 
+        // Convert bytes to URL safe base64 string.
         return strtr(base64_encode($data), '+/=', '-_,');
     }
 
+    /**
+     * Endpoint called for a user logout request.
+     * @param Request $request
+     * @return JsonResponse
+     * @throws Exception
+     */
     public function logout(Request $request) : JsonResponse
     {
         if($user = Auth::user())
@@ -163,19 +180,25 @@ class LoginController extends Controller
         return new JsonResponse('Unauthorized', 401);
     }
 
+    /**
+     * Endpoint called during login callback by Laravel Echo. Retrieves the JWT if it is present in the cache.
+     * The cache stores the JWT using the none ID as the key.
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function confirmLogin(Request $request) : JsonResponse
     {
         try
         {
             $token = Cache::get($request->code);
-
+            Cache::delete($request->code);
             if(!$token)
             {
                 return new JsonResponse('Incorrect login data', 401);
             }
 
         }
-        catch(\InvalidArgumentException | Exception $e)
+        catch(InvalidArgumentException | Exception $e)
         {
             return new JsonResponse('Incorrect login data', 401);
         }
@@ -184,6 +207,8 @@ class LoginController extends Controller
     }
 
     /**
+     * Builds a response payload with a 1 week expiring JWT in a packaged JSON format that is easy for the
+     * front-end to extract.
      * @param $user
      * @return array
      */
@@ -194,6 +219,7 @@ class LoginController extends Controller
 
         $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
+
         $user->logged_out_at = Carbon::tomorrow();
         $user->logged_in_at = now();
 

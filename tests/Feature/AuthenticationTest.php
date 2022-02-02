@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use App\Events\LoginAuthorized;
-use App\Http\Controllers\Auth\LoginController;
 use App\User;
 use Cache;
 use Clef\Clef;
-use Clef\Signing;
 use Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Helpers\HelperFunctions;
@@ -50,21 +48,16 @@ class AuthenticationTest extends TestCase
 
         $payload = ["payload" => $encodedPayload];
 
-//        $encodedPayload = [
-//            "payload" => "eyJwYXlsb2FkX2pzb24iOiJleUoxYzJWeVgybGtJam9pVDNCMGFXOXVZV3dvTkNraUxDSnlZVzVrYjIxZmFXUWlPaUpqWmpJMFZDMXRRMW8yY21wVk1sTmFXRGhOTTFVNGVsRkRaVkpxYm1NdFpEbDVWVXBmV1RSUmNGQnFXREkzTVZOSFIwNVBSelJzZG05aVgwTmpXbGxIWm1WTlFXWnRjVlZzVEVVNU4xWjZabGd3TWtNNWR5d3NJbjA9Iiwic2lnbmF0dXJlcyI6eyJ1c2VyIjp7InR5cGUiOiJlY2RzYS1zaGE1MTIiLCJzaWduYXR1cmUiOiIwRlx1MDAwMiFcdTAwMDDvv73vv73vv71Ode+/ve+/vXUk77+977+977+9Y0Hvv73vv73vv71oYu+/vTxcdTAwMTBTTEbvv73vv71LNS5cdTAwMDIhXHUwMDAw77+9XHUwMDE277+9XHUwMDBm77+977+977+9XHUwMDFl77+9XHUwMDFjXHUwMDA27p2p77+9XHUwMDEz77+977+977+9Tu+/vVwvV++/vcem77+9U1x1MDAxM++/ve+/ve+/vSJ9fSwicGF5bG9hZF9oYXNoIjoiNERGNEVGOUVBMjU0QUQ4OEJEMEJGQUJDNTE4ODg0NEI2ODA2QzE0RkE0REIxRTJCQkRBQTJFQjUxQzQ4Q0JCNzIwODdBNzVDQjAzOEM5QTFFQzRBQzE0MEQ5RDNCNTY3MjVBQzI2NDJDNjI5MDNBQkI3Qjc5MkE2MTQ3NUQ4NUQifQ=="
-//        ];
-
         $this->postJson("/api/login", $payload)->assertStatus(200)
              ->assertOk();
 
         Event::assertDispatched(LoginAuthorized::class);
-        //Cache::shouldHaveReceived('put')->once()->with($random_id, $user->id, $ttl);
-
-//            ->assertJsonStructure([
-//                "access_token",
-//                "token_type",
-//                "expires_at"
-//            ]);
+        Cache::shouldHaveReceived('put')->once()->with($random_id, $user->id, $ttl)
+            ->assertJsonStructure([
+                "access_token",
+                "token_type",
+                "expires_at"
+            ]);
     }
 
     /** @test */
@@ -163,7 +156,7 @@ zj/nWgBC/JY5aeajHhbKAf75t6Umz6vFGBsdgM/AFMkeB4n2Qi96ePNjFg==
 
         $user = User::factory()->create();
         list($privateKey, $publicKey) = HelperFunctions::createKeypair();
-        $user->public_key = $publicKey["key"];
+        $user->public_key = $publicKey['"key"];
         $user->save();
         list($wrongPrivateKey, $wrongPublicKey) = HelperFunctions::createKeypair();
         Clef::configure(array(
@@ -171,7 +164,7 @@ zj/nWgBC/JY5aeajHhbKAf75t6Umz6vFGBsdgM/AFMkeB4n2Qi96ePNjFg==
             "secret" => "sdfw34sefasdf2q34rsadfsdf",
             "keypair" => $wrongPrivateKey,
             "passphrase" => ""));
-
+                                                            ;'op/''
         $signedPayload = Clef::sign_login_payload(array(
             "nonce" => bin2hex(openssl_random_pseudo_bytes(16)),
             "clef_id" => $user->id,
